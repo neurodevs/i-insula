@@ -25,5 +25,32 @@
     "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn run post.watch.build'",
     "watch.rebuild": "yarn run clean.all && yarn install && yarn run watch.build.dev",
     "watch.tsc": "tsc -w"
+  },
+  "devDependencies": {
+    "@sprucelabs/jest-json-reporter": "^9.0.27",
+    "@sprucelabs/test": "^10.0.11",
+    "@sprucelabs/test-utils": "^6.0.39",
+    "eslint": "^9.31.0",
+    "eslint-config-spruce": "^11.2.26",
+    "jest": "^30.0.5",
+    "jest-circus": "^30.0.5"
+  },
+  "jest": {
+    "testRunner": "jest-circus/runner",
+    "maxWorkers": 4,
+    "testTimeout": 120000,
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "<rootDir>/tmp/",
+      "<rootDir>/src/",
+      "<rootDir>/node_modules/",
+      "<rootDir>/build/__tests__/testDirsAndFiles/"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.js?(x)"
+    ],
+    "moduleNameMapper": {
+      "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
+    }
   }
 }
