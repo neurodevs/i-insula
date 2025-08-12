@@ -28,12 +28,14 @@
   },
   "devDependencies": {
     "@sprucelabs/jest-json-reporter": "^9.0.27",
+    "@sprucelabs/resolve-path-aliases": "^3.0.18",
     "@sprucelabs/test": "^10.0.11",
     "@sprucelabs/test-utils": "^6.0.39",
     "eslint": "^9.31.0",
     "eslint-config-spruce": "^11.2.26",
     "jest": "^30.0.5",
-    "jest-circus": "^30.0.5"
+    "jest-circus": "^30.0.5",
+    "tsc-watch": "^7.1.1"
   },
   "jest": {
     "testRunner": "jest-circus/runner",
