@@ -54,5 +54,8 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
+  },
+  "dependencies": {
+    "@neurodevs/node-robotic-arm": "^1.0.0"
   }
 }
