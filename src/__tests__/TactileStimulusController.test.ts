@@ -56,7 +56,7 @@ export default class TactileStimulusControllerTest extends AbstractSpruceTest {
 	protected static async setsOriginOnRoboticArm() {
 		assert.isEqualDeep(
 			FakeRoboticArm.callsToConstructor[0]?.origin, 
-			{ x: 200, y: 0, z: -50 }, 
+			{ x: 200, y: 0, z: -50, spd: 0.3 }, 
 			'Should set origin on robotic arm!'
 		)
 	}
@@ -69,6 +69,17 @@ export default class TactileStimulusControllerTest extends AbstractSpruceTest {
 			FakeRoboticArm.numCallsToResetToOrigin,
 			1,
 			'Should reset to origin after left stimulation!'
+		)
+	}
+
+	@test()
+	protected static async rightResetsToOriginAfterStimulation() {
+		await this.instance.stimulateForearm('right')
+
+		assert.isEqual(
+			FakeRoboticArm.numCallsToResetToOrigin,
+			1,
+			'Should reset to origin after right stimulation!'
 		)
 	}
 
