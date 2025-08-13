@@ -31,7 +31,9 @@ export default class TactileStimulusController implements StimulusController {
 	}
 
 	private static WaveshareRoboticArm() {
-		return WaveshareRoboticArm.Create()
+		return WaveshareRoboticArm.Create({
+			origin: { x: 200, y: 0, z: -50 },
+		})
 	}
 }
 

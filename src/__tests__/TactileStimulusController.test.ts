@@ -52,8 +52,17 @@ export default class TactileStimulusControllerTest extends AbstractSpruceTest {
 		], 'Did not call robotic arm as expected!')
 	}
 
+	@test()
+	protected static async setsOriginOnRoboticArm() {
+		assert.isEqualDeep(
+			FakeRoboticArm.callsToConstructor[0]?.origin, 
+			{ x: 200, y: 0, z: -50 }, 
+			'Should set origin on robotic arm!'
+		)
+	}
+
 	private static setFakeRoboticArm() {
-		WaveshareRoboticArm.Class = FakeRoboticArm
+		WaveshareRoboticArm.Class = 	FakeRoboticArm
 		FakeRoboticArm.resetTestDouble()
 	}
 	
