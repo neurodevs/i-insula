@@ -37,7 +37,19 @@ export default class TactileStimulusControllerTest extends AbstractSpruceTest {
 			{ x: 250, y: -280, z: -50, spd: 0.1 },
 			{ x: 200, y: -300, z: -50, spd: 0.1 }
 		], 'Did not call robotic arm as expected!')
+	}
 
+	@test()
+	protected static async stimulateForearmOnRightCallsRoboticArm() {
+		await this.instance.stimulateForearm('right')
+
+		assert.isEqualDeep(FakeRoboticArm.callsToMoveTo, [    
+			{ x: 200, y: 300, z: -50, spd: 0.3 },
+			{ x: 200, y: 300, z: -110, spd: 0.1 },
+			{ x: 250, y: 280, z: -110, spd: 0.1 },
+			{ x: 250, y: 280, z: -50, spd: 0.1 },
+			{ x: 200, y: 300, z: -50, spd: 0.1 }
+		], 'Did not call robotic arm as expected!')
 	}
 
 	private static setFakeRoboticArm() {
