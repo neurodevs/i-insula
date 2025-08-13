@@ -1,4 +1,4 @@
 # i-insula
-The I-INSULA protocol
+The I-INSULA Protocol
 
 Individualized, Insular Neurophysiological Signals for Understanding Lateralized Anomalies
