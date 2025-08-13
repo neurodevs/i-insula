@@ -10,7 +10,7 @@ export default class TactileStimulusController implements StimulusController {
 	}
 
 	public static async Create() {
-		const arm = await WaveshareRoboticArm.Create()
+		const arm = await this.WaveshareRoboticArm()
 		return new (this.Class ?? this)(arm)
 	}
 
@@ -28,6 +28,10 @@ export default class TactileStimulusController implements StimulusController {
 			await this.arm.moveTo({ x: 250, y: 280, z: -50, spd: 0.1 })
 			await this.arm.moveTo({ x: 200, y: 300, z: -50, spd: 0.1 })
 		}
+	}
+
+	private static WaveshareRoboticArm() {
+		return WaveshareRoboticArm.Create()
 	}
 }
 
