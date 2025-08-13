@@ -61,6 +61,17 @@ export default class TactileStimulusControllerTest extends AbstractSpruceTest {
 		)
 	}
 
+	@test()
+	protected static async leftResetsToOriginAfterStimulation() {
+		await this.instance.stimulateForearm('left')
+
+		assert.isEqual(
+			FakeRoboticArm.numCallsToResetToOrigin,
+			1,
+			'Should reset to origin after left stimulation!'
+		)
+	}
+
 	private static setFakeRoboticArm() {
 		WaveshareRoboticArm.Class = 	FakeRoboticArm
 		FakeRoboticArm.resetTestDouble()

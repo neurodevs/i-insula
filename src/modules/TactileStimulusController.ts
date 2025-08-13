@@ -21,6 +21,7 @@ export default class TactileStimulusController implements StimulusController {
 			await this.arm.moveTo({ x: 250, y: -280, z: -110, spd: 0.1 })
 			await this.arm.moveTo({ x: 250, y: -280, z: -50, spd: 0.1 })
 			await this.arm.moveTo({ x: 200, y: -300, z: -50, spd: 0.1 })
+			await this.arm.resetToOrigin()
 		} else {
 			await this.arm.moveTo({ x: 200, y: 300, z: -50, spd: 0.3 })
 			await this.arm.moveTo({ x: 200, y: 300, z: -110, spd: 0.1 })
