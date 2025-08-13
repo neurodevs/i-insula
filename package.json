@@ -56,6 +56,6 @@
     }
   },
   "dependencies": {
-    "@neurodevs/node-robotic-arm": "^1.0.0"
+    "@neurodevs/node-robotic-arm": "^1.0.2"
   }
 }
