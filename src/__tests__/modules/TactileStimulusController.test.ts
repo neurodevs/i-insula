@@ -1,5 +1,5 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
-import TactileStimulusController, { StimulusController } from '../modules/TactileStimulusController'
+import TactileStimulusController, { StimulusController } from '../../modules/TactileStimulusController'
 import { FakeAxios, FakeRoboticArm, WaveshareRoboticArm } from '@neurodevs/node-robotic-arm'
 import type { AxiosStatic } from 'axios'
 
