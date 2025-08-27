@@ -1,17 +1,13 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test-utils'
 import TactileStimulusController, { StimulusController } from '../../modules/TactileStimulusController'
-import { FakeAxios, FakeRoboticArm, WaveshareRoboticArm } from '@neurodevs/node-robotic-arm'
-import type { AxiosStatic } from 'axios'
+import { FakeRoboticArm } from '@neurodevs/node-robotic-arm'
+import AbstractPackageTest from '../AbstractPackageTest'
 
-export default class TactileStimulusControllerTest extends AbstractSpruceTest {
+export default class TactileStimulusControllerTest extends AbstractPackageTest {
 	private static instance: StimulusController
 	
 	protected static async beforeEach() {
 		await super.beforeEach()
-
-		WaveshareRoboticArm.axios = new FakeAxios() as unknown as AxiosStatic
-
-		this.setFakeRoboticArm()
 
 		this.instance = await this.TactileStimulusController()
 	}
@@ -81,11 +77,6 @@ export default class TactileStimulusControllerTest extends AbstractSpruceTest {
 			1,
 			'Should reset to origin after right stimulation!'
 		)
-	}
-
-	private static setFakeRoboticArm() {
-		WaveshareRoboticArm.Class = 	FakeRoboticArm
-		FakeRoboticArm.resetTestDouble()
 	}
 	
 	private static async TactileStimulusController() {

@@ -1,7 +1,8 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test-utils'
 import P001, { ProtocolRunner } from '../../protocols/P001'
+import AbstractPackageTest from '../AbstractPackageTest'
 
-export default class P001Test extends AbstractSpruceTest {
+export default class P001Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner
 	
 	protected static async beforeEach() {
