@@ -31,6 +31,17 @@ export default class P001Test extends AbstractPackageTest {
 		assert.isEqual(FakeStimulusController.callsToStimulateForearm.length, 16, 'Should call stimulateForearm 16 times!')
 	}
 
+	@test()
+	protected static async halfCallsAreToLeftSide() {
+		await this.instance.run()
+
+		const leftCalls = FakeStimulusController.callsToStimulateForearm.filter(
+			(call) => call === 'left'
+		).length
+
+		assert.isEqual(leftCalls, 8, 'Should call left 8 times!')
+	}
+
 	private static async P001() {
 		return P001.Create()
 	}

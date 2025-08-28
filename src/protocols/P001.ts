@@ -15,8 +15,18 @@ export default class P001 implements ProtocolRunner {
 	}
 
 	public async run() {
-		for (let i = 0; i < 16; i++) {
-			await this.controller.stimulateForearm('left')
+		const sides = [
+			...Array(8).fill('left'),
+			...Array(8).fill('right'),
+		]
+
+		for (let i = sides.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1))
+			;[sides[i], sides[j]] = [sides[j], sides[i]]
+		}
+
+		for (const side of sides) {
+			await this.controller.stimulateForearm(side)
 		}
 	}
 
@@ -29,4 +39,4 @@ export interface ProtocolRunner {
 	run(): Promise<void>
 }
 
-export type ProtocolRunnerConstructor = new () => ProtocolRunner
+export type ProtocolRunnerConstructor = new (controller: StimulusController) => ProtocolRunner
