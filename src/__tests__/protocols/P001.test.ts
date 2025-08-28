@@ -24,6 +24,13 @@ export default class P001Test extends AbstractPackageTest {
 		assert.isEqual(FakeStimulusController.callsToConstructor.length, 1, 'Should create a TactileStimulusController!')
 	}
 
+	@test()
+	protected static async callsStimulateForearmSixteenTimes() {
+		await this.instance.run()
+
+		assert.isEqual(FakeStimulusController.callsToStimulateForearm.length, 16, 'Should call stimulateForearm 16 times!')
+	}
+
 	private static async P001() {
 		return P001.Create()
 	}
