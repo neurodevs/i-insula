@@ -4,6 +4,7 @@ import AbstractSpruceTest from "@sprucelabs/test-utils"
 import type { AxiosStatic } from 'axios'
 import TactileStimulusController from "../modules/TactileStimulusController"
 import FakeStimulusController from "../testDoubles/FakeStimulusController"
+import { CgxDeviceStreamer, FakeCgxDeviceStreamer } from "@neurodevs/node-biosensors"
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
@@ -12,6 +13,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         this.setFakeRoboticArm()
         this.setFakeWifiConnector()
         this.setFakeAxios()
+        this.setFakeCgxDeviceStreamer()
 	}
 
     protected static setFakeRoboticArm() {
@@ -26,6 +28,11 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
 
     protected static setFakeAxios() {
         WaveshareRoboticArm.axios = new FakeAxios() as unknown as AxiosStatic
+    }
+
+    protected static setFakeCgxDeviceStreamer() {
+        CgxDeviceStreamer.Class = FakeCgxDeviceStreamer
+        FakeCgxDeviceStreamer.resetTestDouble()
     }
 
     protected static setFakeStimulusController() {
