@@ -1,21 +1,24 @@
-import { CgxDeviceStreamer } from "@neurodevs/node-biosensors"
+import { CgxDeviceStreamer, DeviceStreamer } from "@neurodevs/node-biosensors"
 import TactileStimulusController, { StimulusController } from "../modules/TactileStimulusController"
 
 export default class P001 implements ProtocolRunner {
 	public static Class?: ProtocolRunnerConstructor
 
 	private controller: StimulusController
+	private cgx: DeviceStreamer
 
-	protected constructor(controller: StimulusController) {
+	protected constructor(controller: StimulusController, cgx: DeviceStreamer) {
 		this.controller = controller
+		this.cgx = cgx
 	}
 
 	public static async Create() {
 		const controller = await this.TactileStimulusController()
-		await CgxDeviceStreamer.Create()
-			
-		return new (this.Class ?? this)(controller)
+		const cgx = await this.CgxDeviceStreamer()
+
+		return new (this.Class ?? this)(controller, cgx)
 	}
+
 
 	public async run() {
 		const sides = [
@@ -31,10 +34,16 @@ export default class P001 implements ProtocolRunner {
 		for (const side of sides) {
 			await this.controller.stimulateForearm(side)
 		}
+
+		await this.cgx.startStreaming()
 	}
 
 	private static TactileStimulusController() {
 		return TactileStimulusController.Create()
+	}
+
+	private static async CgxDeviceStreamer() {
+		return CgxDeviceStreamer.Create()
 	}
 }
 

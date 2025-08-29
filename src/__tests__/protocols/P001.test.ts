@@ -26,15 +26,20 @@ export default class P001Test extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async createsCgxDeviceStreamer() {
+		assert.isEqual(FakeCgxDeviceStreamer.callsToConstructor.length, 1, 'Should create a CgxDeviceStreamer!')
+	}
+
+	@test()
 	protected static async callsStimulateForearmSixteenTimes() {
-		await this.instance.run()
+		await this.runProtocol()
 
 		assert.isEqual(FakeStimulusController.callsToStimulateForearm.length, 16, 'Should call stimulateForearm 16 times!')
 	}
 
 	@test()
 	protected static async halfCallsAreToLeftSide() {
-		await this.instance.run()
+		await this.runProtocol()
 
 		const leftCalls = FakeStimulusController.callsToStimulateForearm.filter(
 			(call) => call === 'left'
@@ -44,9 +49,16 @@ export default class P001Test extends AbstractPackageTest {
 	}
 
 	@test()
-	protected static async createsCgxDeviceStreamer() {
-		assert.isEqual(FakeCgxDeviceStreamer.callsToConstructor.length, 1, 'Should create a CgxDeviceStreamer!')
+	protected static async callsStartStreamingOnCgxDeviceStreamer() {
+		await this.instance.run()
+
+		assert.isEqual(FakeCgxDeviceStreamer.numCallsToStartStreaming, 1, 'Should call startStreaming on CgxDeviceStreamer!')
 	}
+
+	private static runProtocol() {
+		return this.instance.run()
+	}
+
 
 	private static async P001() {
 		return P001.Create()
