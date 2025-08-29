@@ -50,9 +50,28 @@ export default class P001Test extends AbstractPackageTest {
 
 	@test()
 	protected static async callsStartStreamingOnCgxDeviceStreamer() {
-		await this.instance.run()
+		await this.runProtocol()
 
 		assert.isEqual(FakeCgxDeviceStreamer.numCallsToStartStreaming, 1, 'Should call startStreaming on CgxDeviceStreamer!')
+	}
+
+	@test()
+	protected static async callsStartStreamingBeforeStimulations() {
+		const orderedCalls: string[] = []
+
+		//@ts-ignore
+		this.instance.cgx.startStreaming = async () => {
+			orderedCalls.push('startStreaming')
+		}
+
+		//@ts-ignore
+		this.instance.controller.stimulateForearm = async (side: 'left' | 'right') => {
+			orderedCalls.push(side)
+		}
+
+		await this.runProtocol()
+
+		assert.isEqual(orderedCalls[0], 'startStreaming', 'Should call startStreaming before any stimulation!')
 	}
 
 	private static runProtocol() {

@@ -774,7 +774,7 @@
     ref-array-napi "^1.2.2"
     ref-napi "^3.0.3"
 
-"@neurodevs/node-lsl@^11.0.0":
+"@neurodevs/node-lsl@^11.0.0", "@neurodevs/node-lsl@^11.2.0":
   version "11.2.0"
   resolved "https://registry.yarnpkg.com/@neurodevs/node-lsl/-/node-lsl-11.2.0.tgz#22f7c00533c562a8a8e9335bb216ac4dc9c70bce"
   integrity sha512-c8C9zjLneVWk63y9axFyrHRcINEWpVIvoU+dPzclMZYMVviXcFoOj/tN+cwTUMhDvSC5vRo5UH7EU3fbLOnrdg==

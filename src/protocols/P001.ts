@@ -21,6 +21,7 @@ export default class P001 implements ProtocolRunner {
 
 
 	public async run() {
+
 		const sides = [
 			...Array(8).fill('left'),
 			...Array(8).fill('right'),
@@ -31,11 +32,11 @@ export default class P001 implements ProtocolRunner {
 			;[sides[i], sides[j]] = [sides[j], sides[i]]
 		}
 
+		await this.cgx.startStreaming()
+
 		for (const side of sides) {
 			await this.controller.stimulateForearm(side)
 		}
-
-		await this.cgx.startStreaming()
 	}
 
 	private static TactileStimulusController() {
