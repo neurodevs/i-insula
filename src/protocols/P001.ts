@@ -28,6 +28,7 @@ export default class P001 implements ProtocolRunner {
 		}
 
 		await this.controller.disconnect()
+		await this.cgx.disconnect()
 	}
 
 	private get randomizedSides() {

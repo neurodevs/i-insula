@@ -81,6 +81,13 @@ export default class P001Test extends AbstractPackageTest {
 		assert.isEqual(FakeStimulusController.numCallsToDisconnect, 1, 'Should call disconnect on TactileStimulusController!')
 	}
 
+	@test()
+	protected static async callsDisconnectOnCgxDeviceStreamer() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeCgxDeviceStreamer.numCallsToDisconnect, 1, 'Should call disconnect on CgxDeviceStreamer!')
+	}
+
 	private static runProtocol() {
 		return this.instance.run()
 	}
