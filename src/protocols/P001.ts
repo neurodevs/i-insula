@@ -21,22 +21,15 @@ export default class P001 implements ProtocolRunner {
 
 
 	public async run() {
-
-		const sides = [
-			...Array(8).fill('left'),
-			...Array(8).fill('right'),
-		]
-
-		for (let i = sides.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1))
-			;[sides[i], sides[j]] = [sides[j], sides[i]]
-		}
-
 		await this.cgx.startStreaming()
 
-		for (const side of sides) {
+		for (const side of this.randomizedSides) {
 			await this.controller.stimulateForearm(side)
 		}
+	}
+
+	private get randomizedSides() {
+		return [...Array(8).fill('left'), ...Array(8).fill('right')].sort(() => Math.random() - 0.5)
 	}
 
 	private static TactileStimulusController() {
