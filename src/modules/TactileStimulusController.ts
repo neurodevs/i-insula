@@ -31,6 +31,10 @@ export default class TactileStimulusController implements StimulusController {
 		await this.arm.resetToOrigin()
 	}
 
+	public async disconnect() {
+		await this.arm.disconnect()
+	}
+
 	private static WaveshareRoboticArm() {
 		return WaveshareRoboticArm.Create({
 			origin: { x: 200, y: 0, z: -50, spd: 0.3 },
@@ -40,6 +44,7 @@ export default class TactileStimulusController implements StimulusController {
 
 export interface StimulusController {
 	stimulateForearm(side: 'left' | 'right'): Promise<void>
+	disconnect(): Promise<void>
 }
 
 export type StimulusControllerConstructor = new (arm: RoboticArm) => StimulusController

@@ -23,8 +23,17 @@ export default class TactileStimulusControllerTest extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async setsOriginOnRoboticArm() {
+		assert.isEqualDeep(
+			FakeRoboticArm.callsToConstructor[0]?.origin, 
+			{ x: 200, y: 0, z: -50, spd: 0.3 }, 
+			'Should set origin on robotic arm!'
+		)
+	}
+
+	@test()
 	protected static async stimulateForearmOnLeftCallsRoboticArm() {
-		await this.instance.stimulateForearm('left')
+		await this.stimulateForearm('left')
 
 		assert.isEqualDeep(FakeRoboticArm.callsToMoveTo, [    
 			{ x: 200, y: -300, z: -50, spd: 0.3 },
@@ -37,7 +46,7 @@ export default class TactileStimulusControllerTest extends AbstractPackageTest {
 
 	@test()
 	protected static async stimulateForearmOnRightCallsRoboticArm() {
-		await this.instance.stimulateForearm('right')
+		await this.stimulateForearm('right')
 
 		assert.isEqualDeep(FakeRoboticArm.callsToMoveTo, [    
 			{ x: 200, y: 300, z: -50, spd: 0.3 },
@@ -48,18 +57,10 @@ export default class TactileStimulusControllerTest extends AbstractPackageTest {
 		], 'Did not call robotic arm as expected!')
 	}
 
-	@test()
-	protected static async setsOriginOnRoboticArm() {
-		assert.isEqualDeep(
-			FakeRoboticArm.callsToConstructor[0]?.origin, 
-			{ x: 200, y: 0, z: -50, spd: 0.3 }, 
-			'Should set origin on robotic arm!'
-		)
-	}
 
 	@test()
 	protected static async leftResetsToOriginAfterStimulation() {
-		await this.instance.stimulateForearm('left')
+		await this.stimulateForearm('left')
 
 		assert.isEqual(
 			FakeRoboticArm.numCallsToResetToOrigin,
@@ -70,13 +71,24 @@ export default class TactileStimulusControllerTest extends AbstractPackageTest {
 
 	@test()
 	protected static async rightResetsToOriginAfterStimulation() {
-		await this.instance.stimulateForearm('right')
+		await this.stimulateForearm('right')
 
 		assert.isEqual(
 			FakeRoboticArm.numCallsToResetToOrigin,
 			1,
 			'Should reset to origin after right stimulation!'
 		)
+	}
+
+	@test()
+	protected static async disconnectCallsDisconnectOnRoboticArm() {
+		await this.instance.disconnect()
+
+		assert.isEqual(FakeRoboticArm.numCallsToDisconnect, 1, 'Should call disconnect on robotic arm!')
+	}
+
+	private static async stimulateForearm(side: 'left' | 'right') {
+		await this.instance.stimulateForearm(side)
 	}
 	
 	private static async TactileStimulusController() {
