@@ -26,6 +26,8 @@ export default class P001 implements ProtocolRunner {
 		for (const side of this.randomizedSides) {
 			await this.controller.stimulateForearm(side)
 		}
+
+		await this.controller.disconnect()
 	}
 
 	private get randomizedSides() {

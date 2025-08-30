@@ -84,7 +84,7 @@ export default class TactileStimulusControllerTest extends AbstractPackageTest {
 	protected static async disconnectCallsDisconnectOnRoboticArm() {
 		await this.instance.disconnect()
 
-		assert.isEqual(FakeRoboticArm.numCallsToDisconnect, 1, 'Should call disconnect on robotic arm!')
+		assert.isEqual(FakeRoboticArm.numCallsToDisconnect, 1, 'Should call disconnect on WaveshareRoboticArm!')
 	}
 
 	private static async stimulateForearm(side: 'left' | 'right') {

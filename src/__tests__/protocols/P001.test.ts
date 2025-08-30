@@ -74,6 +74,13 @@ export default class P001Test extends AbstractPackageTest {
 		assert.isEqual(orderedCalls[0], 'startStreaming', 'Should call startStreaming before any stimulation!')
 	}
 
+	@test()
+	protected static async callsDisconnectOnStimulusController() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeStimulusController.numCallsToDisconnect, 1, 'Should call disconnect on TactileStimulusController!')
+	}
+
 	private static runProtocol() {
 		return this.instance.run()
 	}
