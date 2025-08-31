@@ -1,26 +1,30 @@
-import { CgxDeviceStreamer, DeviceStreamer } from "@neurodevs/node-biosensors"
+import { BiosensorDeviceFactory, DeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
 import TactileStimulusController, { StimulusController } from "../modules/TactileStimulusController"
 
 export default class P001 implements ProtocolRunner {
 	public static Class?: ProtocolRunnerConstructor
 
 	private controller: StimulusController
-	private cgx: DeviceStreamer
+	private factory: DeviceFactory
 
-	protected constructor(controller: StimulusController, cgx: DeviceStreamer) {
+	private cgx!: DeviceStreamer
+
+	protected constructor(controller: StimulusController, factory: DeviceFactory) {
 		this.controller = controller
-		this.cgx = cgx
+		this.factory = factory
 	}
 
 	public static async Create() {
 		const controller = await this.TactileStimulusController()
-		const cgx = await this.CgxDeviceStreamer()
+		const factory = this.BiosensorDeviceFactory()
 
-		return new (this.Class ?? this)(controller, cgx)
+		return new (this.Class ?? this)(controller, factory)
 	}
 
 
 	public async run() {
+		this.cgx = await this.factory.createDevice('Cognionics Quick-20r')
+
 		await this.cgx.startStreaming()
 
 		for (const side of this.randomizedSides) {
@@ -39,8 +43,8 @@ export default class P001 implements ProtocolRunner {
 		return TactileStimulusController.Create()
 	}
 
-	private static async CgxDeviceStreamer() {
-		return CgxDeviceStreamer.Create()
+	private static BiosensorDeviceFactory() {
+		return BiosensorDeviceFactory.Create()
 	}
 }
 

@@ -2,7 +2,7 @@ import { test, assert } from '@sprucelabs/test-utils'
 import P001, { ProtocolRunner } from '../../protocols/P001'
 import AbstractPackageTest from '../AbstractPackageTest'
 import FakeStimulusController from '../../testDoubles/FakeStimulusController'
-import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
+import { FakeCgxDeviceStreamer, FakeDeviceFactory } from '@neurodevs/node-biosensors'
 
 export default class P001Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner
@@ -26,8 +26,15 @@ export default class P001Test extends AbstractPackageTest {
 	}
 
 	@test()
-	protected static async createsCgxDeviceStreamer() {
-		assert.isEqual(FakeCgxDeviceStreamer.callsToConstructor.length, 1, 'Should create a CgxDeviceStreamer!')
+	protected static async createsBiosensorDeviceFactory() {
+		assert.isEqual(FakeDeviceFactory.numCallsToConstructor, 1, 'Should create a BiosensorDeviceFactory!')
+	}
+
+	@test()
+	protected static async factoryCreatesBiosensorDevices() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeDeviceFactory.callsToCreateDevice[0]?.name, 'Cognionics Quick-20r', 'Factory should create a Cognionics Quick-20r device!')
 	}
 
 	@test()
@@ -60,7 +67,7 @@ export default class P001Test extends AbstractPackageTest {
 		const orderedCalls: string[] = []
 
 		//@ts-ignore
-		this.instance.cgx.startStreaming = async () => {
+		FakeDeviceFactory.fakeDevice.startStreaming = async () => {
 			orderedCalls.push('startStreaming')
 		}
 

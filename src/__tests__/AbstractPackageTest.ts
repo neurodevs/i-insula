@@ -4,8 +4,8 @@ import AbstractSpruceTest from "@sprucelabs/test-utils"
 import type { AxiosStatic } from 'axios'
 import TactileStimulusController from "../modules/TactileStimulusController"
 import FakeStimulusController from "../testDoubles/FakeStimulusController"
-import { CgxDeviceStreamer, FakeCgxDeviceStreamer } from "@neurodevs/node-biosensors"
-import { FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamOutlet } from "@neurodevs/node-lsl"
+import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
+import { FakeLslOutlet, FakeStreamInfo, LslOutlet, LslStreamInfo, LslStreamOutlet } from "@neurodevs/node-lsl"
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
@@ -13,6 +13,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
 
         this.setFakeAxios()
         this.setFakeCgxDeviceStreamer()
+        this.setFakeDeviceFactory()
         this.setFakeLslOutlet()
         this.setFakeStreamInfo()
         this.setFakeWifiConnector()
@@ -26,6 +27,13 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static setFakeCgxDeviceStreamer() {
         CgxDeviceStreamer.Class = FakeCgxDeviceStreamer
         FakeCgxDeviceStreamer.resetTestDouble()
+    }
+
+    protected static setFakeDeviceFactory() {
+        BiosensorDeviceFactory.Class = FakeDeviceFactory
+        FakeDeviceFactory.resetTestDouble()
+
+        FakeDeviceFactory.fakeDevice = new FakeCgxDeviceStreamer({} as LslOutlet, {} as LslOutlet)
     }
 
     protected static setFakeStreamInfo() {
