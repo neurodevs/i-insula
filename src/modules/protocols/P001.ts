@@ -1,5 +1,5 @@
 import { BiosensorDeviceFactory, DeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
-import TactileStimulusController, { StimulusController } from "../modules/TactileStimulusController"
+import TactileStimulusController, { StimulusController } from "../TactileStimulusController"
 
 export default class P001 implements ProtocolRunner {
 	public static Class?: ProtocolRunnerConstructor
