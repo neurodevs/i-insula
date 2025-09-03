@@ -5,7 +5,7 @@ import type { AxiosStatic } from 'axios'
 import TactileStimulusController from "../modules/TactileStimulusController"
 import FakeStimulusController from "../testDoubles/FakeStimulusController"
 import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
-import { FakeLslOutlet, FakeStreamInfo, LslOutlet, LslStreamInfo, LslStreamOutlet } from "@neurodevs/node-lsl"
+import { FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamOutlet } from "@neurodevs/node-lsl"
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
@@ -33,7 +33,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         BiosensorDeviceFactory.Class = FakeDeviceFactory
         FakeDeviceFactory.resetTestDouble()
 
-        FakeDeviceFactory.fakeDevice = new FakeCgxDeviceStreamer({} as LslOutlet, {} as LslOutlet)
+        FakeDeviceFactory.fakeDevice = new FakeCgxDeviceStreamer()
     }
 
     protected static setFakeStreamInfo() {

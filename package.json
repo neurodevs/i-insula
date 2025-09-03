@@ -58,7 +58,7 @@
     }
   },
   "dependencies": {
-    "@neurodevs/node-biosensors": "^2.0.2",
+    "@neurodevs/node-biosensors": "^2.2.0",
     "@neurodevs/node-robotic-arm": "^1.0.2"
   }
 }

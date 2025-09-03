@@ -9,6 +9,8 @@ export default class P001 implements ProtocolRunner {
 
 	private cgx!: DeviceStreamer
 
+	private readonly xdfRecordPath = '../data/P001'
+
 	protected constructor(controller: StimulusController, factory: DeviceFactory) {
 		this.controller = controller
 		this.factory = factory
@@ -30,7 +32,7 @@ export default class P001 implements ProtocolRunner {
 	}
 
 	private async createBiosensorDevices() {
-		this.cgx = await this.factory.createDevice('Cognionics Quick-20r')
+		this.cgx = await this.factory.createDevice('Cognionics Quick-20r', {xdfRecordPath: this.xdfRecordPath})
 	}
 
 	private async startStreamingOnDevices() {

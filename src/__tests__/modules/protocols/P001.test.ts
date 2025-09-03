@@ -38,6 +38,13 @@ export default class P001Test extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async passesXdfRecordPathToFactory() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeDeviceFactory.callsToCreateDevice[0]?.options?.xdfRecordPath, this.xdfRecordPath, 'Factory received incorrect path!')
+	}
+
+	@test()
 	protected static async callsStimulateForearmSixteenTimes() {
 		await this.runProtocol()
 
@@ -99,6 +106,7 @@ export default class P001Test extends AbstractPackageTest {
 		return this.instance.run()
 	}
 
+	private static readonly xdfRecordPath = '../data/P001'
 
 	private static async P001() {
 		return P001.Create()
