@@ -53,6 +53,13 @@ export default class P001Test extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async callsStopOnXdfRecorder() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeXdfRecorder.numCallsToStop, 1, 'Should call stop on XdfRecorder!')
+	}
+
+	@test()
 	protected static async callsStimulateForearmSixteenTimes() {
 		await this.runProtocol()
 

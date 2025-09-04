@@ -33,6 +33,9 @@ export default class P001 implements ProtocolRunner {
 
 		await this.startStreamingOnDevices()
 		await this.deliverRandomizedStimuli()
+
+		this.stopXdfRecorder()
+
 		await this.disconnectDevices()
 	}
 
@@ -58,10 +61,16 @@ export default class P001 implements ProtocolRunner {
 		return [...Array(8).fill('left'), ...Array(8).fill('right')].sort(() => Math.random() - 0.5)
 	}
 
+
+	private stopXdfRecorder() {
+		this.recorder.stop()
+	}
+
 	private async disconnectDevices() {
 		await this.controller.disconnect()
 		await this.cgx.disconnect()
 	}
+
 
 	private static TactileStimulusController() {
 		return TactileStimulusController.Create()
