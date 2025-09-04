@@ -1,5 +1,6 @@
 import { BiosensorDeviceFactory, DeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
 import TactileStimulusController, { StimulusController } from "../TactileStimulusController"
+import { XdfRecorder } from "@neurodevs/node-xdf"
 
 export default class P001 implements ProtocolRunner {
 	public static Class?: ProtocolRunnerConstructor
@@ -8,6 +9,7 @@ export default class P001 implements ProtocolRunner {
 	private factory: DeviceFactory
 
 	private cgx!: DeviceStreamer
+	private recorder!: XdfRecorder
 
 	private readonly xdfRecordPath = '../data/P001'
 
@@ -25,14 +27,21 @@ export default class P001 implements ProtocolRunner {
 
 
 	public async run() {
-		await this.createBiosensorDevices()
+		await this.createDevicesAndRecorder()
+		
+		this.startXdfRecorder()
+
 		await this.startStreamingOnDevices()
 		await this.deliverRandomizedStimuli()
 		await this.disconnectDevices()
 	}
 
-	private async createBiosensorDevices() {
-		this.cgx = await this.factory.createDevice('Cognionics Quick-20r', {xdfRecordPath: this.xdfRecordPath})
+	private startXdfRecorder() {
+		this.recorder.start()
+	}
+
+	private async createDevicesAndRecorder() {
+		[this.cgx, this.recorder] = await this.factory.createDevice('Cognionics Quick-20r', {xdfRecordPath: this.xdfRecordPath})
 	}
 
 	private async startStreamingOnDevices() {
@@ -44,7 +53,6 @@ export default class P001 implements ProtocolRunner {
 			await this.controller.stimulateForearm(side)
 		}
 	}
-
 
 	private get randomizedSides() {
 		return [...Array(8).fill('left'), ...Array(8).fill('right')].sort(() => Math.random() - 0.5)

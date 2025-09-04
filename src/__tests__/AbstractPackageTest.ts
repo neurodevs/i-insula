@@ -6,6 +6,7 @@ import TactileStimulusController from "../modules/TactileStimulusController"
 import FakeStimulusController from "../testDoubles/FakeStimulusController"
 import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
 import { FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamOutlet } from "@neurodevs/node-lsl"
+import { FakeXdfRecorder, XdfStreamRecorder } from "@neurodevs/node-xdf"
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
@@ -18,6 +19,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         this.setFakeStreamInfo()
         this.setFakeWifiConnector()
         this.setFakeRoboticArm()
+        this.setFakeXdfRecorder()
 	}
 
     protected static setFakeAxios() {
@@ -59,5 +61,10 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static setFakeWifiConnector() {
         AutoWifiConnector.Class = FakeWifiConnector
         FakeWifiConnector.resetTestDouble()
+    }
+
+    protected static setFakeXdfRecorder() {
+        XdfStreamRecorder.Class = FakeXdfRecorder
+        FakeXdfRecorder.resetTestDouble()
     }
 }

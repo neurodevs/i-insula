@@ -29,6 +29,7 @@
   "devDependencies": {
     "@neurodevs/node-lsl": "^11.2.0",
     "@neurodevs/node-wifi-connector": "^1.1.2",
+    "@neurodevs/node-xdf": "^1.4.3",
     "@sprucelabs/jest-json-reporter": "^9.0.27",
     "@sprucelabs/resolve-path-aliases": "^3.0.18",
     "@sprucelabs/test": "^10.0.11",
@@ -58,7 +59,7 @@
     }
   },
   "dependencies": {
-    "@neurodevs/node-biosensors": "^2.2.0",
+    "@neurodevs/node-biosensors": "^4.0.2",
     "@neurodevs/node-robotic-arm": "^1.0.2"
   }
 }

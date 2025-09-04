@@ -3,6 +3,7 @@ import P001, { ProtocolRunner } from '../../../modules/protocols/P001'
 import AbstractPackageTest from '../../AbstractPackageTest'
 import FakeStimulusController from '../../../testDoubles/FakeStimulusController'
 import { FakeCgxDeviceStreamer, FakeDeviceFactory } from '@neurodevs/node-biosensors'
+import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 
 export default class P001Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner
@@ -42,6 +43,13 @@ export default class P001Test extends AbstractPackageTest {
 		await this.runProtocol()
 
 		assert.isEqual(FakeDeviceFactory.callsToCreateDevice[0]?.options?.xdfRecordPath, this.xdfRecordPath, 'Factory received incorrect path!')
+	}
+
+	@test()
+	protected static async callsStartOnXdfRecorder() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
 	}
 
 	@test()
