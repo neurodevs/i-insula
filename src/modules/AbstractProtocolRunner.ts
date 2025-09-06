@@ -5,8 +5,8 @@ import { ProtocolRunner } from "../types"
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	protected controller: StimulusController
-	private factory: DeviceFactory
 	protected xdfRecordPath: string
+	private factory: DeviceFactory
 
 	private cgx!: DeviceStreamer
 	private recorder!: XdfRecorder
