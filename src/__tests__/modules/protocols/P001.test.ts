@@ -1,9 +1,10 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import P001, { ProtocolRunner } from '../../../modules/protocols/P001'
+import P001 from '../../../modules/protocols/P001'
 import AbstractPackageTest from '../../AbstractPackageTest'
 import FakeStimulusController from '../../../testDoubles/FakeStimulusController'
 import { FakeCgxDeviceStreamer, FakeDeviceFactory } from '@neurodevs/node-biosensors'
 import { FakeXdfRecorder } from '@neurodevs/node-xdf'
+import { ProtocolRunner } from '../../../types'
 
 export default class P001Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner
