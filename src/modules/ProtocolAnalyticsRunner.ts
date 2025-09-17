@@ -1,4 +1,4 @@
-export default class AnalyticsRunnerImpl implements AnalyticsRunner {
+export default class ProtocolAnalyticsRunner implements AnalyticsRunner {
 	public static Class?: AnalyticsRunnerConstructor
 	
 	protected constructor() {}
