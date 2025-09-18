@@ -55,7 +55,6 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 		const controller = await this.TactileStimulusController()
 		const [cgx, recorder] = await factory.createDevice('Cognionics Quick-20r', { xdfRecordPath }) as unknown as [DeviceStreamer, XdfRecorder]
-
 		const outlet = await this.EventMarkerOutlet()
 
 		return { controller, cgx, outlet, recorder, xdfRecordPath }
