@@ -1,5 +1,10 @@
+// ProtocolRunner
+
 export { default as ProtocolAnalyticsRunner } from './modules/ProtocolAnalyticsRunner'
 export * from './modules/ProtocolAnalyticsRunner'
+
+export { default as DummyProtocolRunner } from './testDoubles/ProtocolRunner/DummyProtocolRunner'
+export * from './testDoubles/ProtocolRunner/DummyProtocolRunner'
 
 export { default as TactileStimulusController } from './modules/TactileStimulusController'
 export * from './modules/TactileStimulusController'

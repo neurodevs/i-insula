@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import TactileStimulusController, { StimulusController } from '../../modules/TactileStimulusController'
+import { StimulusController } from '../../modules/TactileStimulusController'
 import { FakeRoboticArm } from '@neurodevs/node-robotic-arm'
 import AbstractPackageTest from '../AbstractPackageTest'
 
@@ -89,9 +89,5 @@ export default class TactileStimulusControllerTest extends AbstractPackageTest {
 
 	private static async stimulateForearm(side: 'left' | 'right') {
 		await this.instance.stimulateForearm(side)
-	}
-	
-	private static async TactileStimulusController() {
-		return await TactileStimulusController.Create()
 	}
 }

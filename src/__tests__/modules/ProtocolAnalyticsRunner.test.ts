@@ -2,7 +2,7 @@ import { test, assert } from '@sprucelabs/test-utils'
 import ProtocolAnalyticsRunner, { AnalyticsRunner } from '../../modules/ProtocolAnalyticsRunner'
 import { FakeLslInlet } from '@neurodevs/node-lsl'
 import AbstractPackageTest from '../AbstractPackageTest'
-import { CgxDeviceStreamer, DeviceStreamer } from '@neurodevs/node-biosensors'
+import { DeviceStreamer } from '@neurodevs/node-biosensors'
 
 export default class ProtocolAnalyticsRunnerTest extends AbstractPackageTest {
 	private static instance: AnalyticsRunner
@@ -28,7 +28,7 @@ export default class ProtocolAnalyticsRunnerTest extends AbstractPackageTest {
 
 	private static async createDevices() {
 		return [
-			await CgxDeviceStreamer.Create()
+			await this.CgxDeviceStreamer()
 		]
 	}
 

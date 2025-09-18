@@ -73,4 +73,12 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         XdfStreamRecorder.Class = FakeXdfRecorder
         FakeXdfRecorder.resetTestDouble()
     }
+
+    protected static async CgxDeviceStreamer() {
+		return CgxDeviceStreamer.Create()
+	}
+
+    protected static async TactileStimulusController() {
+		return TactileStimulusController.Create()
+	}
 }
