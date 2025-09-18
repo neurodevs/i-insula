@@ -5,6 +5,7 @@ import DummyProtocolRunner from '../../../testDoubles/ProtocolRunner/DummyProtoc
 import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
 import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
+import { FakeMarkerOutlet } from '@neurodevs/node-lsl'
 
 export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	private static instance: ProtocolRunner
@@ -86,6 +87,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		return new DummyProtocolRunner({
 			'cgx': await this.CgxDeviceStreamer(),
 			'controller': await this.TactileStimulusController(),
+			'outlet': new FakeMarkerOutlet(),
 			'recorder': new FakeXdfRecorder(),
 			'xdfRecordPath': this.xdfRecordPath
 		})
