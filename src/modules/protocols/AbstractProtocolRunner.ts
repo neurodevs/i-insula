@@ -6,22 +6,26 @@ import { EventMarkerOutlet, MarkerOutlet } from "@neurodevs/node-lsl"
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	protected controller: StimulusController
+	protected outlet: MarkerOutlet
 	protected xdfRecordPath: string
 
 	private cgx!: DeviceStreamer
 	private recorder!: XdfRecorder
 
 	protected constructor(options: ProtocolRunnerConstructorOptions) {
-		const { controller, cgx, recorder, xdfRecordPath } = options
+		const { controller, cgx, outlet, recorder, xdfRecordPath } = options
 
 		this.controller = controller
 		this.cgx = cgx
+		this.outlet = outlet
 		this.recorder = recorder
 		this.xdfRecordPath = xdfRecordPath
 	}
 
 	public async run() {
 		this.startXdfRecorder()
+
+		this.outlet.pushMarker('session-begin')
 
 		await this.startStreamingOnDevices()
 		await this.deliverRandomizedStimuli()

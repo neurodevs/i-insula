@@ -24,6 +24,13 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async sendsSessionBeginEventMarker() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[0], 'session-begin', 'Incorrect event marker!')
+	}
+
+	@test()
 	protected static async callsDisconnectOnTactileStimulusController() {
 		await this.runProtocol()
 
