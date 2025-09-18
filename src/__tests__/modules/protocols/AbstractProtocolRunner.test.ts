@@ -31,10 +31,10 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
-	protected static async callsDisconnectOnTactileStimulusController() {
+	protected static async callsStartOnXdfStreamRecorder() {
 		await this.runProtocol()
 
-		assert.isEqual(FakeStimulusController.numCallsToDisconnect, 1, 'Should call disconnect on TactileStimulusController!')
+		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
 	}
 
 	@test()
@@ -62,6 +62,20 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 
 		assert.isEqual(orderedCalls[0], 'startStreaming', 'Should call startStreaming before any stimulation!')
 	}
+	
+	@test()
+	protected static async callsStopOnXdfStreamRecorder() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeXdfRecorder.numCallsToStop, 1, 'Should call stop on XdfRecorder!')
+	}
+
+	@test()
+	protected static async callsDisconnectOnTactileStimulusController() {
+		await this.runProtocol()
+
+		assert.isEqual(FakeStimulusController.numCallsToDisconnect, 1, 'Should call disconnect on TactileStimulusController!')
+	}
 
 	@test()
 	protected static async callsDisconnectOnCgxDeviceStreamer() {
@@ -70,19 +84,6 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		assert.isEqual(FakeCgxDeviceStreamer.numCallsToDisconnect, 1, 'Should call disconnect on CgxDeviceStreamer!')
 	}
 
-	@test()
-	protected static async callsStartOnXdfStreamRecorder() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
-	}
-
-	@test()
-	protected static async callsStopOnXdfStreamRecorder() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeXdfRecorder.numCallsToStop, 1, 'Should call stop on XdfRecorder!')
-	}
 
 	private static async runProtocol() {
 		await this.instance.run()
