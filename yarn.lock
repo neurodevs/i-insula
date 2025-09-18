@@ -769,6 +769,20 @@
     ref-array-napi "^1.2.2"
     ref-napi "^3.0.3"
 
+"@neurodevs/node-lsl@^11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@neurodevs/node-lsl/-/node-lsl-11.3.0.tgz#a37b5c979c5f52156d96810d629a597cef6db276"
+  integrity sha512-4uA6fynLPtCNSysA8/MnoGqDJQvpXW9f7BxBy/tyirrJ5AJU9+9sOxl7Vg1+4cVC8VwjV1HaIAPVTV/tjqN0bw==
+  dependencies:
+    "@sprucelabs/error" "^6.0.541"
+    "@sprucelabs/schema" "^30.0.560"
+    "@sprucelabs/spruce-core-schemas" "^40.1.547"
+    "@sprucelabs/spruce-skill-utils" "^31.0.624"
+    ffi-rs "^1.0.98"
+    node-gyp "^10.2.0"
+    ref-array-napi "^1.2.2"
+    ref-napi "^3.0.3"
+
 "@neurodevs/node-mangled-names@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@neurodevs/node-mangled-names/-/node-mangled-names-0.0.8.tgz#9f207275ba7faf7a827e73eb6f6b449c7d6f3e60"
