@@ -1,7 +1,7 @@
 import { DeviceStreamer } from "@neurodevs/node-biosensors"
 import { XdfRecorder } from "@neurodevs/node-xdf"
-import { StimulusController } from "./TactileStimulusController"
-import { ProtocolRunner } from "../types"
+import { StimulusController } from "../TactileStimulusController"
+import { ProtocolRunner } from "../../types"
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	protected controller: StimulusController

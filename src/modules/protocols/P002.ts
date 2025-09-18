@@ -1,7 +1,7 @@
 import { BiosensorDeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
 import TactileStimulusController from "../TactileStimulusController"
 import { ProtocolRunner, ProtocolRunnerConstructor } from "../../types"
-import AbstractProtocolRunner, { ProtocolRunnerConstructorOptions } from "../AbstractProtocolRunner"
+import AbstractProtocolRunner, { ProtocolRunnerConstructorOptions } from "./AbstractProtocolRunner"
 import { XdfRecorder } from "@neurodevs/node-xdf"
 
 export default class P002 extends AbstractProtocolRunner implements ProtocolRunner {

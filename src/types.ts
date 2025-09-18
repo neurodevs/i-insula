@@ -1,4 +1,4 @@
-import { ProtocolRunnerConstructorOptions } from "./modules/AbstractProtocolRunner"
+import { ProtocolRunnerConstructorOptions } from "./modules/protocols/AbstractProtocolRunner"
 
 export interface ProtocolRunner {
     run(): Promise<void>
