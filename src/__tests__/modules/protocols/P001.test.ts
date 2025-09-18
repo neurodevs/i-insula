@@ -2,9 +2,8 @@ import { test, assert } from '@sprucelabs/test-utils'
 import P001 from '../../../modules/protocols/P001'
 import AbstractPackageTest from '../../AbstractPackageTest'
 import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
-import { FakeCgxDeviceStreamer, FakeDeviceFactory } from '@neurodevs/node-biosensors'
-import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 import { ProtocolRunner } from '../../../types'
+import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolRunner'
 
 export default class P001Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner
@@ -23,41 +22,8 @@ export default class P001Test extends AbstractPackageTest {
 	}
 
 	@test()
-	protected static async createsTactileStimulusController() {
-		assert.isEqual(FakeStimulusController.callsToConstructor.length, 1, 'Should create a TactileStimulusController!')
-	}
-
-	@test()
-	protected static async createsBiosensorDeviceFactory() {
-		assert.isEqual(FakeDeviceFactory.numCallsToConstructor, 1, 'Should create a BiosensorDeviceFactory!')
-	}
-
-	@test()
-	protected static async factoryCreatesBiosensorDevices() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeDeviceFactory.callsToCreateDevice[0]?.name, 'Cognionics Quick-20r', 'Factory should create a Cognionics Quick-20r device!')
-	}
-
-	@test()
-	protected static async passesXdfRecordPathToFactory() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeDeviceFactory.callsToCreateDevice[0]?.options?.xdfRecordPath, this.xdfRecordPath, 'Factory received incorrect path!')
-	}
-
-	@test()
-	protected static async callsStartOnXdfRecorder() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
-	}
-
-	@test()
-	protected static async callsStopOnXdfRecorder() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeXdfRecorder.numCallsToStop, 1, 'Should call stop on XdfRecorder!')
+	protected static async extendsAbstractProtocolRunner() {
+		assert.isTrue(this.instance instanceof AbstractProtocolRunner, 'Should extend AbstractProtocolRunner!')
 	}
 
 	@test()
@@ -78,51 +44,9 @@ export default class P001Test extends AbstractPackageTest {
 		assert.isEqual(leftCalls, 8, 'Should call left exactly 8 times!')
 	}
 
-	@test()
-	protected static async callsStartStreamingOnCgxDeviceStreamer() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeCgxDeviceStreamer.numCallsToStartStreaming, 1, 'Should call startStreaming on CgxDeviceStreamer!')
-	}
-
-	@test()
-	protected static async callsStartStreamingBeforeStimulations() {
-		const orderedCalls: string[] = []
-
-		//@ts-ignore
-		FakeDeviceFactory.fakeDevice.startStreaming = async () => {
-			orderedCalls.push('startStreaming')
-		}
-
-		//@ts-ignore
-		this.instance.controller.stimulateForearm = async (side: 'left' | 'right') => {
-			orderedCalls.push(side)
-		}
-
-		await this.runProtocol()
-
-		assert.isEqual(orderedCalls[0], 'startStreaming', 'Should call startStreaming before any stimulation!')
-	}
-
-	@test()
-	protected static async callsDisconnectOnStimulusController() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeStimulusController.numCallsToDisconnect, 1, 'Should call disconnect on TactileStimulusController!')
-	}
-
-	@test()
-	protected static async callsDisconnectOnCgxDeviceStreamer() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeCgxDeviceStreamer.numCallsToDisconnect, 1, 'Should call disconnect on CgxDeviceStreamer!')
-	}
-
 	private static runProtocol() {
 		return this.instance.run()
 	}
-
-	private static readonly xdfRecordPath = '../data/P001'
 
 	private static async P001() {
 		return P001.Create()
