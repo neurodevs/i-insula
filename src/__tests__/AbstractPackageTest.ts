@@ -3,7 +3,7 @@ import { AutoWifiConnector, FakeWifiConnector } from "@neurodevs/node-wifi-conne
 import AbstractSpruceTest from "@sprucelabs/test-utils"
 import type { AxiosStatic } from 'axios'
 import TactileStimulusController from "../modules/TactileStimulusController"
-import FakeStimulusController from "../testDoubles/FakeStimulusController"
+import FakeStimulusController from "../testDoubles/StimulusController/FakeStimulusController"
 import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
 import { FakeLslInlet, FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamInlet, LslStreamOutlet } from "@neurodevs/node-lsl"
 import { FakeXdfRecorder, XdfStreamRecorder } from "@neurodevs/node-xdf"

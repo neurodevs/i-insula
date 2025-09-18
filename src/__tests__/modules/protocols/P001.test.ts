@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import P001 from '../../../modules/protocols/P001'
 import AbstractPackageTest from '../../AbstractPackageTest'
-import FakeStimulusController from '../../../testDoubles/FakeStimulusController'
+import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
 import { FakeCgxDeviceStreamer, FakeDeviceFactory } from '@neurodevs/node-biosensors'
 import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 import { ProtocolRunner } from '../../../types'
