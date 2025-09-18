@@ -6,6 +6,7 @@ import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
 import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
 import { FakeMarkerOutlet } from '@neurodevs/node-lsl'
+import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolRunner'
 
 export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	private static instance: ProtocolRunner
@@ -14,6 +15,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		await super.beforeEach()
 
 		this.setFakeStimulusController()
+		AbstractProtocolRunner.waitMs = 0
 		
 		this.instance = await this.DummyProtocolRunner()
 	}
@@ -35,6 +37,25 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		await this.runProtocol()
 
 		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[0], 'session-begin', 'Incorrect event marker!')
+	}
+
+	@test()
+	protected static async waitsForTenMsToGiveXdfRecorderTimeToFullyStart() {
+		AbstractProtocolRunner.waitMs = 10
+
+		let t1: number | undefined
+
+		//@ts-ignore
+		this.instance.outlet.pushMarker = () => {
+			t1 = Date.now()
+		}
+
+		const t0 = Date.now()
+
+		await this.runProtocol()
+
+		assert.isAbove(((t1 ?? 0) - t0), 9, 'Should wait at least 10ms before pushing first event marker!')
+
 	}
 
 	@test()
