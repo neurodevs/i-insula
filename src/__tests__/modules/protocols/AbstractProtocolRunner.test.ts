@@ -33,7 +33,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
-	protected static async sendsSessionBeginEventMarker() {
+	protected static async pushesSessionBeginEventMarker() {
 		await this.runProtocol()
 
 		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[0], 'session-begin', 'Incorrect event marker!')
@@ -82,6 +82,13 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		await this.runProtocol()
 
 		assert.isEqual(orderedCalls[0], 'startStreaming', 'Should call startStreaming before any stimulation!')
+	}
+
+	@test()
+	protected static async pushesSessionEndEventMarker() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[1], 'session-end', 'Incorrect event marker!')
 	}
 	
 	@test()

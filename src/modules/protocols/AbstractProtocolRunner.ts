@@ -31,6 +31,8 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		await this.startStreamingOnDevices()
 		await this.deliverRandomizedStimuli()
 
+		this.pushSessionEndMarker()
+
 		this.stopXdfRecorder()
 
 		await this.disconnectDevices()
@@ -54,6 +56,10 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	}
 
 	protected abstract deliverRandomizedStimuli(): Promise<void>
+
+	private pushSessionEndMarker() {
+		this.outlet.pushMarker('session-end')
+	}
 
 	private stopXdfRecorder() {
 		this.recorder.stop()
