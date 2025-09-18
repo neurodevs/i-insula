@@ -5,7 +5,7 @@ import type { AxiosStatic } from 'axios'
 import TactileStimulusController from "../modules/TactileStimulusController"
 import FakeStimulusController from "../testDoubles/FakeStimulusController"
 import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
-import { FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamOutlet } from "@neurodevs/node-lsl"
+import { FakeLslInlet, FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamInlet, LslStreamOutlet } from "@neurodevs/node-lsl"
 import { FakeXdfRecorder, XdfStreamRecorder } from "@neurodevs/node-xdf"
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
@@ -15,6 +15,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         this.setFakeAxios()
         this.setFakeCgxDeviceStreamer()
         this.setFakeDeviceFactory()
+        this.setFakeLslInlet()
         this.setFakeLslOutlet()
         this.setFakeStreamInfo()
         this.setFakeWifiConnector()
@@ -41,6 +42,11 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
     protected static setFakeStreamInfo() {
         LslStreamInfo.Class = FakeStreamInfo
         FakeStreamInfo.resetTestDouble()
+    }
+
+    protected static setFakeLslInlet() {
+        LslStreamInlet.Class = FakeLslInlet
+        FakeLslInlet.resetTestDouble()
     }
 
     protected static setFakeLslOutlet() {
