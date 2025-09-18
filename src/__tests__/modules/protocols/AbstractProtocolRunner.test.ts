@@ -22,19 +22,19 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	protected static async createsInstance() {
 		assert.isTruthy(this.instance, 'Failed to create instance!')
 	}
+	
+	@test()
+	protected static async callsStartOnXdfStreamRecorder() {
+		await this.runProtocol()
+		
+		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
+	}
 
 	@test()
 	protected static async sendsSessionBeginEventMarker() {
 		await this.runProtocol()
 
 		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[0], 'session-begin', 'Incorrect event marker!')
-	}
-
-	@test()
-	protected static async callsStartOnXdfStreamRecorder() {
-		await this.runProtocol()
-
-		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
 	}
 
 	@test()
