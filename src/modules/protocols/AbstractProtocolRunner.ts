@@ -35,7 +35,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 		this.stopXdfRecorder()
 
-		await this.disconnectDevices()
+		await this.disconnectAll()
 	}
 
 	private async pushSessionBeginMarker() {
@@ -65,7 +65,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		this.recorder.stop()
 	}
 
-	private async disconnectDevices() {
+	private async disconnectAll() {
 		await this.controller.disconnect()
 		await this.cgx.disconnect()
 	}
