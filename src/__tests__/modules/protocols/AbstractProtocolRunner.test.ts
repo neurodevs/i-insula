@@ -11,6 +11,12 @@ import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolR
 export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	private static instance: ProtocolRunner
 
+	protected static async beforeAll() {
+		await super.beforeAll()
+
+		assert.isEqual(AbstractProtocolRunner.waitMs, this.waitMs, 'Incorrect default waitMs!')
+	}
+
 	protected static async beforeEach() {
 		await super.beforeEach()
 
@@ -41,7 +47,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 
 	@test()
 	protected static async waitsForTenMsToGiveXdfRecorderTimeToFullyStart() {
-		AbstractProtocolRunner.waitMs = 10
+		AbstractProtocolRunner.waitMs = this.waitMs
 
 		let t1: number | undefined
 
@@ -54,7 +60,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 
 		await this.runProtocol()
 
-		assert.isAbove(((t1 ?? 0) - t0), 9, 'Should wait at least 10ms before pushing first event marker!')
+		assert.isAbove(((t1 ?? 0) - t0), 9, `Did not wait at least ${this.waitMs}ms before pushing first event marker!`)
 
 	}
 
@@ -118,6 +124,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	private static xdfRecordPath = generateId()
+	private static waitMs = 10
 
 	private static async DummyProtocolRunner() {
 		return new DummyProtocolRunner({
