@@ -15,6 +15,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		await super.beforeAll()
 
 		assert.isEqual(AbstractProtocolRunner.waitMs, this.waitMs, 'Incorrect default waitMs!')
+		assert.isEqual(AbstractProtocolRunner.baselineMs, 300000, 'Incorrect default baselineMs!')
 	}
 
 	protected static async beforeEach() {

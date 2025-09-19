@@ -5,6 +5,7 @@ import { ProtocolRunner } from "../../types"
 import { EventMarkerOutlet, MarkerOutlet } from "@neurodevs/node-lsl"
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
+	public static baselineMs = 300000
 	public static waitMs = 10
 	protected controller: StimulusController
 	protected outlet: MarkerOutlet
