@@ -60,6 +60,6 @@
   },
   "dependencies": {
     "@neurodevs/node-biosensors": "^4.1.0",
-    "@neurodevs/node-robotic-arm": "^1.0.4"
+    "@neurodevs/node-robotic-arm": "^1.0.6"
   }
 }
