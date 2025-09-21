@@ -119,6 +119,28 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		assert.isEqual(FakeCgxDeviceStreamer.numCallsToDisconnect, 1, 'Should call disconnect on CgxDeviceStreamer!')
 	}
 
+	@test()
+	protected static async callsStartStreamingBeforePushingSessionBeginMarker() {
+		const orderedCalls: string[] = []
+		
+		//@ts-ignore
+		this.instance.cgx.startStreaming = async () => {
+			orderedCalls.push('start-streaming')
+		}
+
+		//@ts-ignore
+		this.instance.outlet.pushMarker = (marker: string) => {
+			orderedCalls.push(marker)
+		}
+
+		await this.runProtocol()
+
+		const startStreamingIndex = orderedCalls.indexOf('start-streaming')
+		const sessionBeginIndex = orderedCalls.indexOf('session-begin')
+
+		assert.isBelow(startStreamingIndex, sessionBeginIndex, 'Wrong order of events!')
+	}
+
 
 	private static async runProtocol() {
 		await this.instance.run()
