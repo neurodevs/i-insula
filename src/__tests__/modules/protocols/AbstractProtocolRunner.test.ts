@@ -39,7 +39,52 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		
 		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
 	}
-
+	
+	@test()
+	protected static async waitsForTenMsToGiveXdfRecorderTimeToFullyStart() {
+		AbstractProtocolRunner.waitMs = this.waitMs
+		
+		let t1: number | undefined
+		
+		//@ts-ignore
+		this.instance.outlet.pushMarker = () => {
+			t1 = Date.now()
+		}
+		
+		const t0 = Date.now()
+		
+		await this.runProtocol()
+		
+		assert.isAbove(((t1 ?? 0) - t0), 9, `Did not wait at least ${this.waitMs}ms before pushing first event marker!`)
+		
+	}
+	
+	@test()
+	protected static async callsStartStreamingOnCgxDeviceStreamer() {
+		await this.runProtocol()
+		
+		assert.isEqual(FakeCgxDeviceStreamer.numCallsToStartStreaming, 1, 'Should call startStreaming on CgxDeviceStreamer!')
+	}
+	
+	@test()
+	protected static async callsStartStreamingBeforeStimulations() {
+		const orderedCalls: string[] = []
+		
+		//@ts-ignore
+		this.instance.cgx.startStreaming = async () => {
+			orderedCalls.push('startStreaming')
+		}
+		
+		//@ts-ignore
+		this.instance.controller.stimulateForearm = async (side: 'left' | 'right') => {
+			orderedCalls.push(side)
+		}
+		
+		await this.runProtocol()
+		
+		assert.isEqual(orderedCalls[0], 'startStreaming', 'Should call startStreaming before any stimulation!')
+	}
+	
 	@test()
 	protected static async pushesSessionBeginEventMarker() {
 		await this.runProtocol()
@@ -48,55 +93,41 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
-	protected static async waitsForTenMsToGiveXdfRecorderTimeToFullyStart() {
-		AbstractProtocolRunner.waitMs = this.waitMs
-
-		let t1: number | undefined
-
-		//@ts-ignore
-		this.instance.outlet.pushMarker = () => {
-			t1 = Date.now()
-		}
-
-		const t0 = Date.now()
-
+	protected static async pushesPreBaselineBeginEventMarker() {
 		await this.runProtocol()
 
-		assert.isAbove(((t1 ?? 0) - t0), 9, `Did not wait at least ${this.waitMs}ms before pushing first event marker!`)
-
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[1], 'pre-baseline-begin', 'Incorrect event marker!')
 	}
 
 	@test()
-	protected static async callsStartStreamingOnCgxDeviceStreamer() {
+	protected static async speaksThePreBaselineScript() {
 		await this.runProtocol()
 
-		assert.isEqual(FakeCgxDeviceStreamer.numCallsToStartStreaming, 1, 'Should call startStreaming on CgxDeviceStreamer!')
+		assert.isEqualDeep(callsToSpeak[0]?.text, 'Pre-trial baseline begins...', 'Incorrect text to speak!')
 	}
 
 	@test()
-	protected static async callsStartStreamingBeforeStimulations() {
-		const orderedCalls: string[] = []
-
-		//@ts-ignore
-		this.instance.cgx.startStreaming = async () => {
-			orderedCalls.push('startStreaming')
-		}
-
-		//@ts-ignore
-		this.instance.controller.stimulateForearm = async (side: 'left' | 'right') => {
-			orderedCalls.push(side)
-		}
-
+	protected static async finishesSpeakingWithTheWordNow() {
 		await this.runProtocol()
 
-		assert.isEqual(orderedCalls[0], 'startStreaming', 'Should call startStreaming before any stimulation!')
+		const callback = callsToSpeak[0]?.callback
+		callback?.('')
+
+		assert.isEqualDeep(callsToSpeak[1]?.text, 'Now.', 'Incorrect text to speak!')
+	}
+
+	@test()
+	protected static async pushesPreBaselineEndEventMarker() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[2], 'pre-baseline-end', 'Incorrect event marker!')
 	}
 
 	@test()
 	protected static async pushesSessionEndEventMarker() {
 		await this.runProtocol()
-
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[1], 'session-end', 'Incorrect event marker!')
+		
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[3], 'session-end', 'Incorrect event marker!')
 	}
 	
 	@test()
@@ -140,23 +171,6 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		const sessionBeginIndex = orderedCalls.indexOf('session-begin')
 
 		assert.isBelow(startStreamingIndex, sessionBeginIndex, 'Wrong order of events!')
-	}
-
-	@test()
-	protected static async speaksThePreTrialBaselineScript() {
-		await this.runProtocol()
-
-		assert.isEqualDeep(callsToSpeak[0]?.text, 'Pre-trial baseline begins...', 'Incorrect text to speak!')
-	}
-
-	@test()
-	protected static async finishesSpeakingWithTheWordNow() {
-		await this.runProtocol()
-
-		const callback = callsToSpeak[0]?.callback
-		callback?.('')
-
-		assert.isEqualDeep(callsToSpeak[1]?.text, 'Now.', 'Incorrect text to speak!')
 	}
 
 	private static async runProtocol() {

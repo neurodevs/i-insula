@@ -30,8 +30,9 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		this.startXdfRecorder()
 
 		await this.startStreamingOnDevices()
+
 		await this.pushSessionBeginMarker()
-		await this.announcePreTrialBaseline()
+		await this.speakPreBaselineScript()
 		await this.deliverRandomizedStimuli()
 
 		this.pushSessionEndMarker()
@@ -47,7 +48,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 	private async pushSessionBeginMarker() {
 		await this.waitForRecorderToFullyStart()
-		this.outlet.pushMarker('session-begin')
+		this.pushMarker('session-begin')
 	}
 
 	private async waitForRecorderToFullyStart() {
@@ -58,16 +59,20 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		await this.cgx.startStreaming()
 	}
 	
-	private async announcePreTrialBaseline() {
+	private async speakPreBaselineScript() {
+		this.pushMarker('pre-baseline-begin')
+
 		this.speak('Pre-trial baseline begins...', undefined, undefined, () => {
 			this.speak('Now.')
 		})
+
+		this.pushMarker('pre-baseline-end')
 	}
 
 	protected abstract deliverRandomizedStimuli(): Promise<void>
 
 	private pushSessionEndMarker() {
-		this.outlet.pushMarker('session-end')
+		this.pushMarker('session-end')
 	}
 
 	private stopXdfRecorder() {
@@ -81,6 +86,10 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 	private get waitMs(){
 		return AbstractProtocolRunner.waitMs
+	}
+
+	private pushMarker(markerName: string) {
+		return this.outlet.pushMarker(markerName)
 	}
 
 	private get speak() {
