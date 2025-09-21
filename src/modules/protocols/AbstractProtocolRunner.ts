@@ -30,10 +30,11 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		this.startXdfRecorder()
 
 		await this.startStreamingOnDevices()
-
 		await this.pushSessionBeginMarker()
+		
 		await this.speakPreBaselineScript()
 		await this.deliverRandomizedStimuli()
+		await this.speakPostBaselineScript()
 
 		this.pushSessionEndMarker()
 
@@ -70,6 +71,16 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	}
 
 	protected abstract deliverRandomizedStimuli(): Promise<void>
+
+	private async speakPostBaselineScript() {
+		this.pushMarker('post-baseline-begin')
+
+		this.speak('Post-trial baseline begins...', undefined, undefined, () => {
+			this.speak('Now.')
+		})
+
+		this.pushMarker('post-baseline-end')
+	}
 
 	private pushSessionEndMarker() {
 		this.pushMarker('session-end')

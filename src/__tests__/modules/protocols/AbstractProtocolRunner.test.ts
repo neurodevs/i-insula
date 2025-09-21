@@ -107,12 +107,12 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
-	protected static async finishesSpeakingWithTheWordNow() {
+	protected static async finishesPreBaselineWithTheWordNow() {
 		await this.runProtocol()
 
 		const callback = callsToSpeak[0]?.callback
 		callback?.('')
-
+		
 		assert.isEqualDeep(callsToSpeak[1]?.text, 'Now.', 'Incorrect text to speak!')
 	}
 
@@ -124,10 +124,41 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async pushesPostBaselineBeginEventMarker() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[3], 'post-baseline-begin', 'Incorrect event marker!')
+	}
+
+	@test()
+	protected static async speaksThePostBaselineScript() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(callsToSpeak[2]?.text, 'Post-trial baseline begins...', 'Incorrect text to speak!')
+	}
+
+	@test()
+	protected static async finishesPostBaselineWithTheWordNow() {
+		await this.runProtocol()
+
+		const callback = callsToSpeak[2]?.callback
+		callback?.('')
+
+		assert.isEqualDeep(callsToSpeak[3]?.text, 'Now.', 'Incorrect text to speak!')
+	}
+
+	@test()
+	protected static async pushesPostBaselineEndEventMarker() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[4], 'post-baseline-end', 'Incorrect event marker!')
+	}
+
+	@test()
 	protected static async pushesSessionEndEventMarker() {
 		await this.runProtocol()
 		
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[3], 'session-end', 'Incorrect event marker!')
+		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[5], 'session-end', 'Incorrect event marker!')
 	}
 	
 	@test()

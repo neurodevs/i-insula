@@ -11,6 +11,7 @@ export default function fakeSpeak(
     callback?: (text: string) => void
 ) {
     callsToSpeak.push({ text, voice, speed, callback })
+    callback?.('')
 }
 
 export interface CallToSpeak {
