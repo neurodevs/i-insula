@@ -17,3 +17,6 @@ export * from './modules/protocols/P001'
 
 export { default as P002 } from './modules/protocols/P002'
 export * from './modules/protocols/P002'
+
+export { default as fakeSpeak } from './testDoubles/say/fakeSpeak'
+export * from './testDoubles/say/fakeSpeak'

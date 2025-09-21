@@ -7,6 +7,7 @@ import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
 import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
 import { FakeMarkerOutlet } from '@neurodevs/node-lsl'
 import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolRunner'
+import { callsToSpeak } from '../../../testDoubles/say/fakeSpeak'
 
 export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	private static instance: ProtocolRunner
@@ -141,6 +142,22 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		assert.isBelow(startStreamingIndex, sessionBeginIndex, 'Wrong order of events!')
 	}
 
+	@test()
+	protected static async speaksThePreTrialBaselineScript() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(callsToSpeak[0]?.text, 'Pre-trial baseline begins...', 'Incorrect text to speak!')
+	}
+
+	@test()
+	protected static async finishesSpeakingWithTheWordNow() {
+		await this.runProtocol()
+
+		const callback = callsToSpeak[0]?.callback
+		callback?.('')
+
+		assert.isEqualDeep(callsToSpeak[1]?.text, 'Now.', 'Incorrect text to speak!')
+	}
 
 	private static async runProtocol() {
 		await this.instance.run()

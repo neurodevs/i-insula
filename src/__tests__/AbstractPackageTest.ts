@@ -7,6 +7,8 @@ import FakeStimulusController from "../testDoubles/StimulusController/FakeStimul
 import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
 import { FakeLslInlet, FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamInlet, LslStreamOutlet } from "@neurodevs/node-lsl"
 import { FakeXdfRecorder, XdfStreamRecorder } from "@neurodevs/node-xdf"
+import AbstractProtocolRunner from "../modules/protocols/AbstractProtocolRunner"
+import fakeSpeak, { resetFakeSpeak } from "../testDoubles/say/fakeSpeak"
 
 export default class AbstractPackageTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
@@ -17,6 +19,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         this.setFakeDeviceFactory()
         this.setFakeLslInlet()
         this.setFakeLslOutlet()
+        this.setFakeSpeak()
         this.setFakeStreamInfo()
         this.setFakeWifiConnector()
         this.setFakeRoboticArm()
@@ -38,6 +41,11 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
 
         FakeDeviceFactory.fakeDevice = new FakeCgxDeviceStreamer()
     }
+
+    protected static setFakeSpeak() {
+		AbstractProtocolRunner.speak = fakeSpeak
+		resetFakeSpeak()
+	}
 
     protected static setFakeStreamInfo() {
         LslStreamInfo.Class = FakeStreamInfo

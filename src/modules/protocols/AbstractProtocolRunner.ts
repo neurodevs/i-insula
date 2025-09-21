@@ -3,10 +3,12 @@ import { XdfRecorder } from "@neurodevs/node-xdf"
 import TactileStimulusController, { StimulusController } from "../TactileStimulusController"
 import { ProtocolRunner } from "../../types"
 import { EventMarkerOutlet, MarkerOutlet } from "@neurodevs/node-lsl"
+import say from "say"
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	public static baselineMs = 300000
 	public static waitMs = 10
+	public static speak = say.speak
 	protected controller: StimulusController
 	protected outlet: MarkerOutlet
 	protected xdfRecordPath: string
@@ -29,6 +31,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 		await this.startStreamingOnDevices()
 		await this.pushSessionBeginMarker()
+		await this.announcePreTrialBaseline()
 		await this.deliverRandomizedStimuli()
 
 		this.pushSessionEndMarker()
@@ -54,6 +57,12 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	private async startStreamingOnDevices() {
 		await this.cgx.startStreaming()
 	}
+	
+	private async announcePreTrialBaseline() {
+		this.speak('Pre-trial baseline begins...', undefined, undefined, () => {
+			this.speak('Now.')
+		})
+	}
 
 	protected abstract deliverRandomizedStimuli(): Promise<void>
 
@@ -72,6 +81,10 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 	private get waitMs(){
 		return AbstractProtocolRunner.waitMs
+	}
+
+	private get speak() {
+		return AbstractProtocolRunner.speak
 	}
 
 	protected static async generateOptions(xdfRecordPath: string) {
