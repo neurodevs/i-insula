@@ -196,6 +196,13 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async speaksThatPostBaselineIsDone() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(callsToSpeak[5]?.text, 'Post-trial baseline is done.', 'Incorrect text to speak!')
+	}
+
+	@test()
 	protected static async pushesPostBaselineEndEventMarker() {
 		await this.runProtocol()
 
