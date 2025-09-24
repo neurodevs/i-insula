@@ -1,7 +1,7 @@
-import { ProtocolRunner, ProtocolRunnerConstructor } from "../../types"
+import { ProtocolRunnerConstructor } from "../../types"
 import AbstractProtocolRunner, { ProtocolRunnerConstructorOptions } from "./AbstractProtocolRunner"
 
-export default class P001 extends AbstractProtocolRunner implements ProtocolRunner {
+export default class P001 extends AbstractProtocolRunner {
 	public static Class?: ProtocolRunnerConstructor
 	private static readonly xdfRecordPath = '../data/P001'
 
