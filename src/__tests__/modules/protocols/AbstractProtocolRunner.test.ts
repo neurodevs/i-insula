@@ -168,6 +168,28 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async waitsForThePostBaselinePeriod() {
+		AbstractProtocolRunner.baselineMs = this.waitMs
+
+		let t0: number | undefined
+		let t1: number | undefined
+
+		//@ts-ignore
+		this.instance.outlet.pushMarker = (markerName: string) => {
+			if (markerName === 'post-baseline-begin') {
+				t0 = Date.now()
+			} else if (markerName === 'post-baseline-end') {
+				t1 = Date.now()
+			}
+		}
+
+		await this.runProtocol()
+
+		assert.isAbove((t1 ?? 0) - (t0 ?? 0), 9, `Did not wait at least ${this.waitMs}ms during post-baseline period!`)
+	}
+
+
+	@test()
 	protected static async pushesPostBaselineEndEventMarker() {
 		await this.runProtocol()
 

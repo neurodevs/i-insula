@@ -57,10 +57,9 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	}
 
 	private async waitForRecorderToFullyStart() {
-		await new Promise(r => setTimeout(r, this.waitMs))
+		await new Promise(r => setTimeout(r, AbstractProtocolRunner.waitMs))
 	}
 
-	
 	private async speakPreBaselineScript() {
 		this.pushMarker('pre-baseline-begin')
 
@@ -68,9 +67,13 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 			this.speak('Now.')
 		})
 
-		await new Promise(r => setTimeout(r, AbstractProtocolRunner.baselineMs))
+		await this.waitForBaselineMs()
 
 		this.pushMarker('pre-baseline-end')
+	}
+
+	private async waitForBaselineMs() {
+		await new Promise(r => setTimeout(r, AbstractProtocolRunner.baselineMs))
 	}
 
 	protected abstract deliverRandomizedStimuli(): Promise<void>
@@ -81,6 +84,8 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		this.speak('Post-trial baseline begins...', undefined, undefined, () => {
 			this.speak('Now.')
 		})
+
+		await this.waitForBaselineMs()
 
 		this.pushMarker('post-baseline-end')
 	}
@@ -96,10 +101,6 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	private async disconnectAll() {
 		await this.controller.disconnect()
 		await this.cgx.disconnect()
-	}
-
-	private get waitMs(){
-		return AbstractProtocolRunner.waitMs
 	}
 
 	private pushMarker(markerName: string) {
