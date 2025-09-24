@@ -47,6 +47,10 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		this.recorder.start()
 	}
 
+	private async startStreamingOnDevices() {
+		await this.cgx.startStreaming()
+	}
+	
 	private async pushSessionBeginMarker() {
 		await this.waitForRecorderToFullyStart()
 		this.pushMarker('session-begin')
@@ -56,9 +60,6 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		await new Promise(r => setTimeout(r, this.waitMs))
 	}
 
-	private async startStreamingOnDevices() {
-		await this.cgx.startStreaming()
-	}
 	
 	private async speakPreBaselineScript() {
 		this.pushMarker('pre-baseline-begin')
