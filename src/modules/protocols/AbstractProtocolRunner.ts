@@ -69,6 +69,8 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 		await this.waitForBaselineMs()
 
+		this.speak('Pre-trial baseline is done.')
+
 		this.pushMarker('pre-baseline-end')
 	}
 

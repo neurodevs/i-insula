@@ -137,6 +137,13 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	}
 
 	@test()
+	protected static async speaksThatPreBaselineIsDone() {
+		await this.runProtocol()
+
+		assert.isEqualDeep(callsToSpeak[2]?.text, 'Pre-trial baseline is done.', 'Incorrect text to speak!')
+	}
+
+	@test()
 	protected static async pushesPreBaselineEndEventMarker() {
 		await this.runProtocol()
 
@@ -154,17 +161,17 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	protected static async speaksThePostBaselineScript() {
 		await this.runProtocol()
 
-		assert.isEqualDeep(callsToSpeak[2]?.text, 'Post-trial baseline begins...', 'Incorrect text to speak!')
+		assert.isEqualDeep(callsToSpeak[3]?.text, 'Post-trial baseline begins...', 'Incorrect text to speak!')
 	}
 
 	@test()
 	protected static async finishesPostBaselineWithTheWordNow() {
 		await this.runProtocol()
 
-		const callback = callsToSpeak[2]?.callback
+		const callback = callsToSpeak[3]?.callback
 		callback?.('')
 
-		assert.isEqualDeep(callsToSpeak[3]?.text, 'Now.', 'Incorrect text to speak!')
+		assert.isEqualDeep(callsToSpeak[4]?.text, 'Now.', 'Incorrect text to speak!')
 	}
 
 	@test()
@@ -187,7 +194,6 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 
 		assert.isAbove((t1 ?? 0) - (t0 ?? 0), 9, `Did not wait at least ${this.waitMs}ms during post-baseline period!`)
 	}
-
 
 	@test()
 	protected static async pushesPostBaselineEndEventMarker() {
