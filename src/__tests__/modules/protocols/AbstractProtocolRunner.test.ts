@@ -23,8 +23,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		await super.beforeEach()
 
 		this.setFakeStimulusController()
-		AbstractProtocolRunner.waitMs = 0
-		
+
 		this.instance = await this.DummyProtocolRunner()
 	}
 	
@@ -114,6 +113,27 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		callback?.('')
 		
 		assert.isEqualDeep(callsToSpeak[1]?.text, 'Now.', 'Incorrect text to speak!')
+	}
+
+	@test()
+	protected static async waitsForThePreBaselinePeriod() {
+		AbstractProtocolRunner.baselineMs = this.waitMs
+
+		let t0: number | undefined
+		let t1: number | undefined
+
+		//@ts-ignore
+		this.instance.outlet.pushMarker = (markerName: string) => {
+			if (markerName === 'pre-baseline-begin') {
+				t0 = Date.now()
+			} else if (markerName === 'pre-baseline-end') {
+				t1 = Date.now()
+			}
+		}
+
+		await this.runProtocol()
+
+		assert.isAbove((t1 ?? 0) - (t0 ?? 0), 9, `Did not wait at least ${this.waitMs}ms during pre-baseline period!`)
 	}
 
 	@test()

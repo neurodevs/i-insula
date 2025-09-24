@@ -68,6 +68,8 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 			this.speak('Now.')
 		})
 
+		await new Promise(r => setTimeout(r, AbstractProtocolRunner.baselineMs))
+
 		this.pushMarker('pre-baseline-end')
 	}
 
