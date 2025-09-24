@@ -7,7 +7,6 @@ import say from "say"
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	public static baselineMs = 300000
-	public static waitMs = 10
 	public static speak = say.speak
 	protected controller: StimulusController
 	protected outlet: MarkerOutlet
@@ -34,7 +33,6 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 	private async setup() {
 		this.startXdfRecorder()
-
 		await this.startStreamingOnDevices()
 	}
 
@@ -47,40 +45,41 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	}
 
 	private async startSession() {
-		await this.pushSessionBeginMarker()
+		this.pushMarker('session-begin')
 
 		await this.startPreBaseline()
 		await this.deliverRandomizedStimuli()
 		await this.startPostBaseline()
 
-		this.pushSessionEndMarker()
-	}
-	
-	private async pushSessionBeginMarker() {
-		await this.waitForRecorderToFullyStart()
-		this.pushMarker('session-begin')
+		this.pushMarker('session-end')
 	}
 
-	private async waitForRecorderToFullyStart() {
-		await new Promise(r => setTimeout(r, AbstractProtocolRunner.waitMs))
+	private pushMarker(markerName: string) {
+		return this.outlet.pushMarker(markerName)
 	}
 
 	private async startPreBaseline() {
 		this.pushMarker('pre-baseline-begin')
 
-		this.speak('Pre-trial baseline begins...', undefined, undefined, () => {
-			this.speak('Now.')
-		})
-
+		this.speakPreBaselineBefore()
 		await this.waitForBaselineMs()
-
-		this.speak('Pre-trial baseline is done.')
+		this.speakPreBaselineAfter()
 
 		this.pushMarker('pre-baseline-end')
 	}
 
+	private speakPreBaselineBefore() {
+		this.speak('Pre-trial baseline begins...', undefined, undefined, () => {
+			this.speak('Now.')
+		})
+	}
+	
 	private async waitForBaselineMs() {
 		await new Promise(r => setTimeout(r, AbstractProtocolRunner.baselineMs))
+	}
+
+	private speakPreBaselineAfter() {
+		this.speak('Pre-trial baseline is done.')
 	}
 
 	protected abstract deliverRandomizedStimuli(): Promise<void>
@@ -88,21 +87,22 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	private async startPostBaseline() {
 		this.pushMarker('post-baseline-begin')
 
-		this.speak('Post-trial baseline begins...', undefined, undefined, () => {
-			this.speak('Now.')
-		})
-
+		this.speakPostBaselineBefore()
 		await this.waitForBaselineMs()
-
-		this.speak('Post-trial baseline is done.')
+		this.speakPostBaselineAfter()
 
 		this.pushMarker('post-baseline-end')
 	}
-
-	private pushSessionEndMarker() {
-		this.pushMarker('session-end')
+	
+	private speakPostBaselineBefore() {
+		this.speak('Post-trial baseline begins...', undefined, undefined, () => {
+			this.speak('Now.')
+		})
 	}
 
+	private speakPostBaselineAfter() {
+		this.speak('Post-trial baseline is done.')
+	}
 
 	private async teardown() {
 		this.stopXdfRecorder()
@@ -116,10 +116,6 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	private async disconnectAll() {
 		await this.controller.disconnect()
 		await this.cgx.disconnect()
-	}
-
-	private pushMarker(markerName: string) {
-		return this.outlet.pushMarker(markerName)
 	}
 
 	private get speak() {

@@ -15,7 +15,6 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	protected static async beforeAll() {
 		await super.beforeAll()
 
-		assert.isEqual(AbstractProtocolRunner.waitMs, this.waitMs, 'Incorrect default waitMs!')
 		assert.isEqual(AbstractProtocolRunner.baselineMs, 300000, 'Incorrect default baselineMs!')
 	}
 
@@ -38,26 +37,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		
 		assert.isEqual(FakeXdfRecorder.numCallsToStart, 1, 'Should call start on XdfRecorder!')
 	}
-	
-	@test()
-	protected static async waitsForTenMsToGiveXdfRecorderTimeToFullyStart() {
-		AbstractProtocolRunner.waitMs = this.waitMs
-		
-		let t1: number | undefined
-		
-		//@ts-ignore
-		this.instance.outlet.pushMarker = () => {
-			t1 = Date.now()
-		}
-		
-		const t0 = Date.now()
-		
-		await this.runProtocol()
-		
-		assert.isAbove(((t1 ?? 0) - t0), 9, `Did not wait at least ${this.waitMs}ms before pushing first event marker!`)
-		
-	}
-	
+
 	@test()
 	protected static async callsStartStreamingOnCgxDeviceStreamer() {
 		await this.runProtocol()

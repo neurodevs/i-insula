@@ -14,7 +14,6 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-        AbstractProtocolRunner.waitMs = 0
         AbstractProtocolRunner.baselineMs = 0
 
         this.setFakeAxios()
