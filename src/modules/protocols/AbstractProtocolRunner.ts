@@ -32,9 +32,9 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		await this.startStreamingOnDevices()
 		await this.pushSessionBeginMarker()
 		
-		await this.speakPreBaselineScript()
+		await this.startPreBaseline()
 		await this.deliverRandomizedStimuli()
-		await this.speakPostBaselineScript()
+		await this.startPostBaseline()
 
 		this.pushSessionEndMarker()
 
@@ -60,7 +60,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		await new Promise(r => setTimeout(r, AbstractProtocolRunner.waitMs))
 	}
 
-	private async speakPreBaselineScript() {
+	private async startPreBaseline() {
 		this.pushMarker('pre-baseline-begin')
 
 		this.speak('Pre-trial baseline begins...', undefined, undefined, () => {
@@ -80,7 +80,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 	protected abstract deliverRandomizedStimuli(): Promise<void>
 
-	private async speakPostBaselineScript() {
+	private async startPostBaseline() {
 		this.pushMarker('post-baseline-begin')
 
 		this.speak('Post-trial baseline begins...', undefined, undefined, () => {
