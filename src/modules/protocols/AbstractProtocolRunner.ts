@@ -27,20 +27,15 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	}
 
 	public async run() {
+		await this.setup()
+		await this.startSession()
+		await this.teardown()
+	}
+
+	private async setup() {
 		this.startXdfRecorder()
 
 		await this.startStreamingOnDevices()
-		await this.pushSessionBeginMarker()
-		
-		await this.startPreBaseline()
-		await this.deliverRandomizedStimuli()
-		await this.startPostBaseline()
-
-		this.pushSessionEndMarker()
-
-		this.stopXdfRecorder()
-
-		await this.disconnectAll()
 	}
 
 	private startXdfRecorder() {
@@ -49,6 +44,16 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 	private async startStreamingOnDevices() {
 		await this.cgx.startStreaming()
+	}
+
+	private async startSession() {
+		await this.pushSessionBeginMarker()
+
+		await this.startPreBaseline()
+		await this.deliverRandomizedStimuli()
+		await this.startPostBaseline()
+
+		this.pushSessionEndMarker()
 	}
 	
 	private async pushSessionBeginMarker() {
@@ -96,6 +101,12 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 	private pushSessionEndMarker() {
 		this.pushMarker('session-end')
+	}
+
+
+	private async teardown() {
+		this.stopXdfRecorder()
+		await this.disconnectAll()
 	}
 
 	private stopXdfRecorder() {
