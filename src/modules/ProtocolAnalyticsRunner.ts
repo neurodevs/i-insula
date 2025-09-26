@@ -9,6 +9,12 @@ export default class ProtocolAnalyticsRunner implements AnalyticsRunner {
 	public static Create(options: AnalyticsRunnerOptions) {
 		const { devices } = options
 
+		this.createLslInlets(devices)
+
+		return new (this.Class ?? this)()
+	}
+
+	private static createLslInlets(devices: DeviceStreamer[]) {
 		devices.map((device: DeviceStreamer) => {
 			return device.outlets.map((outlet) => {
 				const options = {
@@ -26,8 +32,6 @@ export default class ProtocolAnalyticsRunner implements AnalyticsRunner {
 				return LslStreamInlet.Create(options)
 			})
 		})
-
-		return new (this.Class ?? this)()
 	}
 }
 
