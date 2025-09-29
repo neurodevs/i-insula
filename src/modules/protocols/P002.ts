@@ -1,4 +1,4 @@
-import { ProtocolRunner, ProtocolRunnerConstructor } from "../../types"
+import { ProtocolRunner, ProtocolRunnerConstructor } from "./AbstractProtocolRunner"
 import AbstractProtocolRunner, { ProtocolRunnerConstructorOptions } from "./AbstractProtocolRunner"
 
 export default class P002 extends AbstractProtocolRunner implements ProtocolRunner {

@@ -1,7 +1,6 @@
 import { BiosensorDeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
 import { XdfRecorder } from "@neurodevs/node-xdf"
 import TactileStimulusController, { StimulusController } from "../TactileStimulusController"
-import { ProtocolRunner } from "../../types"
 import { EventMarkerOutlet, MarkerOutlet } from "@neurodevs/node-lsl"
 import say from "say"
 
@@ -144,6 +143,12 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		return TactileStimulusController.Create()
 	}
 }
+
+export interface ProtocolRunner {
+	run(): Promise<void>
+}
+
+export type ProtocolRunnerConstructor = new (options: ProtocolRunnerConstructorOptions) => ProtocolRunner
 
 export interface ProtocolRunnerConstructorOptions {
 	controller: StimulusController

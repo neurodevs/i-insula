@@ -1,6 +1,6 @@
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import AbstractPackageTest from '../../AbstractPackageTest'
-import { ProtocolRunner } from '../../../types'
+import { ProtocolRunner } from "modules/protocols/AbstractProtocolRunner"
 import DummyProtocolRunner from '../../../testDoubles/ProtocolRunner/DummyProtocolRunner'
 import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'

@@ -2,7 +2,7 @@ import { test, assert } from '@sprucelabs/test-utils'
 import P001 from '../../../modules/protocols/P001'
 import AbstractPackageTest from '../../AbstractPackageTest'
 import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
-import { ProtocolRunner } from '../../../types'
+import { ProtocolRunner } from "modules/protocols/AbstractProtocolRunner"
 import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolRunner'
 
 export default class P001Test extends AbstractPackageTest {
