@@ -26,6 +26,11 @@
     "watch.rebuild": "yarn run clean.all && yarn install && yarn run watch.build.dev",
     "watch.tsc": "tsc -w"
   },
+  "dependencies": {
+    "@neurodevs/node-biosensors": "^4.1.0",
+    "@neurodevs/node-robotic-arm": "^1.0.5",
+    "say": "^0.16.0"
+  },
   "devDependencies": {
     "@neurodevs/node-lsl": "^11.3.0",
     "@neurodevs/node-wifi-connector": "^1.1.2",
@@ -42,9 +47,9 @@
   },
   "jest": {
     "testRunner": "jest-circus/runner",
-    "maxWorkers": 4,
-    "testTimeout": 120000,
     "testEnvironment": "node",
+    "testTimeout": 120000,
+    "maxWorkers": 4,
     "testPathIgnorePatterns": [
       "<rootDir>/tmp/",
       "<rootDir>/src/",
@@ -57,10 +62,5 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
-  },
-  "dependencies": {
-    "@neurodevs/node-biosensors": "^4.1.0",
-    "@neurodevs/node-robotic-arm": "^1.0.5",
-    "say": "^0.16.0"
   }
 }
