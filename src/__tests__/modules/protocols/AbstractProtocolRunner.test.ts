@@ -1,4 +1,4 @@
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test-utils'
 import AbstractPackageTest from '../../AbstractPackageTest'
 import { ProtocolRunner } from "modules/protocols/AbstractProtocolRunner"
 import DummyProtocolRunner from '../../../testDoubles/ProtocolRunner/DummyProtocolRunner'
@@ -8,6 +8,7 @@ import FakeStimulusController from '../../../testDoubles/StimulusController/Fake
 import { FakeMarkerOutlet } from '@neurodevs/node-lsl'
 import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolRunner'
 import { callsToSpeak } from '../../../testDoubles/say/fakeSpeak'
+import generateId from '@neurodevs/generate-id'
 
 export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	private static instance: ProtocolRunner

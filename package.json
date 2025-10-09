@@ -32,6 +32,7 @@
     "say": "^0.16.0"
   },
   "devDependencies": {
+    "@neurodevs/generate-id": "^1.0.0",
     "@neurodevs/node-lsl": "^11.3.0",
     "@neurodevs/node-wifi-connector": "^1.1.2",
     "@neurodevs/node-xdf": "^1.4.3",

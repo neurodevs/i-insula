@@ -730,6 +730,11 @@
     "@emnapi/runtime" "^1.4.3"
     "@tybys/wasm-util" "^0.10.0"
 
+"@neurodevs/generate-id@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.0.0.tgz#0a2b756c569d4fa12e01c744fa1bb8a094aa7606"
+  integrity sha512-F5UabBUeIql4WnS1P/mIUj4tuM3iT6s2mro96HcdDh4WMSwzlNisSh26VmmYaX2NMK1rzwshde01rW5+rMLuNQ==
+
 "@neurodevs/node-biosensors@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@neurodevs/node-biosensors/-/node-biosensors-4.1.0.tgz#197799d35381e34c0c82a618442855d48b5bc18d"
@@ -779,10 +784,10 @@
     "@sprucelabs/spruce-core-schemas" "^40.1.547"
     "@sprucelabs/spruce-skill-utils" "^31.0.624"
 
-"@neurodevs/node-robotic-arm@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@neurodevs/node-robotic-arm/-/node-robotic-arm-1.0.4.tgz#24372eab36f0f9617987a9b2a6069128b3bfedf3"
-  integrity sha512-K3HsLyWDdXk7x3Wzs9Zzzh5kzJkcnVpZ8AZ/q0yvxQL91c7vk58RA5KfBKXN79QF3NvcmdLHhQ1aFngsKNhN2w==
+"@neurodevs/node-robotic-arm@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@neurodevs/node-robotic-arm/-/node-robotic-arm-1.0.5.tgz#58668fcaa1ab9d8a68fe567b958e625cf7df4f8f"
+  integrity sha512-R2BjXV2BeglVbtW0vKU/f80JnMyk7afPN6HLXM+YlGY6Vo93h851wMGcVLXCiDd1D01P97prEc3bLkYTdoWqgA==
   dependencies:
     "@neurodevs/node-wifi-connector" "^1.1.0"
     "@types/node-wifi" "^2.0.2"
@@ -4286,6 +4291,11 @@ once@^1.3.0:
   dependencies:
     wrappy "1"
 
+one-time@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/one-time/-/one-time-0.0.4.tgz#f8cdf77884826fe4dff93e3a9cc37b1e4480742e"
+  integrity sha512-qAMrwuk2xLEutlASoiPiAMW3EN3K96Ka/ilSXYr6qR1zSVXw2j7+yDSqGTC4T9apfLYxM3tLLjKvgPdAUK7kYQ==
+
 onetime@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-5.1.2.tgz#d0e96ebb56b07476df1dd9c4806e5237985ca45e"
@@ -4665,6 +4675,13 @@ safe-regex-test@^1.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
+
+say@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/say/-/say-0.16.0.tgz#c9e0cfe9e5b2c9af4098eab4023027e4c0e2e6e0"
+  integrity sha512-yEfncNu3I6lcZ6RIrXgE9DqbrEmvV5uQQ8ReM14u/DodlvJYpveqNphO55RLMSj77b06ZKNif/FLmhzQxcuUXg==
+  dependencies:
+    one-time "0.0.4"
 
 semver@7.x, semver@^7.3.5, semver@^7.5.3, semver@^7.5.4, semver@^7.6.0, semver@^7.7.2:
   version "7.7.2"
