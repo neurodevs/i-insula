@@ -1,9 +1,22 @@
 {
   "name": "@neurodevs/i-insula",
   "version": "1.0.0",
-  "main": "build/index.js",
-  "repository": "https://github.com/neurodevs/i-insula.git",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "tdd"
+  ],
   "license": "MIT",
+  "author": "Eric Yates <hello@ericthecurious.com>",
+  "homepage": "https://github.com/neurodevs/i-insula",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neurodevs/i-insula.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neurodevs/i-insula/issues"
+  },
+  "main": "build/index.js",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap ; yarn run resolve-paths.lint",
