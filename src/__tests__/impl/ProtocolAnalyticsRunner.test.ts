@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import ProtocolAnalyticsRunner, { AnalyticsRunner } from '../../modules/ProtocolAnalyticsRunner'
+import ProtocolAnalyticsRunner, { AnalyticsRunner } from '../../impl/ProtocolAnalyticsRunner'
 import { FakeLslInlet } from '@neurodevs/node-lsl'
 import AbstractPackageTest from '../AbstractPackageTest'
 import { DeviceStreamer } from '@neurodevs/node-biosensors'

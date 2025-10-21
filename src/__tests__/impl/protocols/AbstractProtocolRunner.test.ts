@@ -1,12 +1,11 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import AbstractPackageTest from '../../AbstractPackageTest'
-import { ProtocolRunner } from "modules/protocols/AbstractProtocolRunner"
 import DummyProtocolRunner from '../../../testDoubles/ProtocolRunner/DummyProtocolRunner'
 import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
 import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
 import { FakeMarkerOutlet } from '@neurodevs/node-lsl'
-import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolRunner'
+import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner'
 import { callsToSpeak } from '../../../testDoubles/say/fakeSpeak'
 import generateId from '@neurodevs/generate-id'
 

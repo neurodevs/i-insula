@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import { StimulusController } from '../../modules/TactileStimulusController'
+import { StimulusController } from '../../impl/TactileStimulusController'
 import { FakeRoboticArm } from '@neurodevs/node-robotic-arm'
 import AbstractPackageTest from '../AbstractPackageTest'
 

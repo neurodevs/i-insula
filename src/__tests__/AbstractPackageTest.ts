@@ -2,12 +2,12 @@ import { WaveshareRoboticArm, FakeRoboticArm, FakeAxios } from "@neurodevs/node-
 import { AutoWifiConnector, FakeWifiConnector } from "@neurodevs/node-wifi-connector"
 import AbstractSpruceTest from "@sprucelabs/test-utils"
 import type { AxiosStatic } from 'axios'
-import TactileStimulusController from "../modules/TactileStimulusController"
+import TactileStimulusController from "../impl/TactileStimulusController"
 import FakeStimulusController from "../testDoubles/StimulusController/FakeStimulusController"
 import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
 import { FakeLslInlet, FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamInlet, LslStreamOutlet } from "@neurodevs/node-lsl"
 import { FakeXdfRecorder, XdfStreamRecorder } from "@neurodevs/node-xdf"
-import AbstractProtocolRunner from "../modules/protocols/AbstractProtocolRunner"
+import AbstractProtocolRunner from "../impl/protocols/AbstractProtocolRunner"
 import fakeSpeak, { resetFakeSpeak } from "../testDoubles/say/fakeSpeak"
 
 export default class AbstractPackageTest extends AbstractSpruceTest {

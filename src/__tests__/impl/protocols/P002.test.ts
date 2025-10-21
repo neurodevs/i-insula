@@ -1,8 +1,7 @@
 import { assert, test } from '@sprucelabs/test-utils'
-import P002 from '../../../modules/protocols/P002'
-import { ProtocolRunner } from "modules/protocols/AbstractProtocolRunner"
+import P002 from '../../../impl/protocols/P002'
 import AbstractPackageTest from '../../AbstractPackageTest'
-import AbstractProtocolRunner from '../../../modules/protocols/AbstractProtocolRunner'
+import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner'
 
 export default class P002Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner

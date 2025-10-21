@@ -1,5 +1,5 @@
 import { RoboticArm } from "@neurodevs/node-robotic-arm"
-import { StimulusController } from "../../modules/TactileStimulusController"
+import { StimulusController } from "../../impl/TactileStimulusController"
 
 export default class FakeStimulusController implements StimulusController {
     public static callsToConstructor: RoboticArm[] = []
