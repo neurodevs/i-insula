@@ -1,16 +1,17 @@
+import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
+import { FakeStreamInlet, FakeStreamOutlet, FakeStreamInfo, LslStreamInfo, LslStreamInlet, LslStreamOutlet } from "@neurodevs/node-lsl"
 import { WaveshareRoboticArm, FakeRoboticArm, FakeAxios } from "@neurodevs/node-robotic-arm"
 import { AutoWifiConnector, FakeWifiConnector } from "@neurodevs/node-wifi-connector"
-import AbstractSpruceTest from "@sprucelabs/test-utils"
-import type { AxiosStatic } from 'axios'
-import TactileStimulusController from "../impl/TactileStimulusController"
-import FakeStimulusController from "../testDoubles/StimulusController/FakeStimulusController"
-import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
-import { FakeLslInlet, FakeLslOutlet, FakeStreamInfo, LslStreamInfo, LslStreamInlet, LslStreamOutlet } from "@neurodevs/node-lsl"
 import { FakeXdfRecorder, XdfStreamRecorder } from "@neurodevs/node-xdf"
-import AbstractProtocolRunner from "../impl/protocols/AbstractProtocolRunner"
-import fakeSpeak, { resetFakeSpeak } from "../testDoubles/say/fakeSpeak"
+import AbstractModuleTest from "@neurodevs/node-tdd"
+import type { AxiosStatic } from 'axios'
 
-export default class AbstractPackageTest extends AbstractSpruceTest {
+import TactileStimulusController from "../impl/TactileStimulusController.js"
+import FakeStimulusController from "../testDoubles/StimulusController/FakeStimulusController.js"
+import AbstractProtocolRunner from "../impl/protocols/AbstractProtocolRunner.js"
+import fakeSpeak, { resetFakeSpeak } from "../testDoubles/say/fakeSpeak.js"
+
+export default class AbstractPackageTest extends AbstractModuleTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
@@ -19,8 +20,8 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         this.setFakeAxios()
         this.setFakeCgxDeviceStreamer()
         this.setFakeDeviceFactory()
-        this.setFakeLslInlet()
-        this.setFakeLslOutlet()
+        this.setFakeStreamInlet()
+        this.setFakeStreamOutlet()
         this.setFakeSpeak()
         this.setFakeStreamInfo()
         this.setFakeWifiConnector()
@@ -41,6 +42,7 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         BiosensorDeviceFactory.Class = FakeDeviceFactory
         FakeDeviceFactory.resetTestDouble()
 
+        // @ts-ignore
         FakeDeviceFactory.fakeDevice = new FakeCgxDeviceStreamer()
     }
 
@@ -54,14 +56,14 @@ export default class AbstractPackageTest extends AbstractSpruceTest {
         FakeStreamInfo.resetTestDouble()
     }
 
-    protected static setFakeLslInlet() {
-        LslStreamInlet.Class = FakeLslInlet
-        FakeLslInlet.resetTestDouble()
+    protected static setFakeStreamInlet() {
+        LslStreamInlet.Class = FakeStreamInlet
+        FakeStreamInlet.resetTestDouble()
     }
 
-    protected static setFakeLslOutlet() {
-        LslStreamOutlet.Class = FakeLslOutlet
-        FakeLslOutlet.resetTestDouble()
+    protected static setFakeStreamOutlet() {
+        LslStreamOutlet.Class = FakeStreamOutlet
+        FakeStreamOutlet.resetTestDouble()
     }
 
     protected static setFakeRoboticArm() {

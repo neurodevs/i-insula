@@ -1,4 +1,4 @@
-import TactileStimulusController from "../impl/TactileStimulusController"
+import TactileStimulusController from "../impl/TactileStimulusController.js"
 
 async function main() {
     const instance = await TactileStimulusController.Create()

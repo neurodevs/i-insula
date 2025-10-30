@@ -1,7 +1,8 @@
-import { test, assert } from '@sprucelabs/test-utils'
-import { StimulusController } from '../../impl/TactileStimulusController'
+import { test, assert } from '@neurodevs/node-tdd'
 import { FakeRoboticArm } from '@neurodevs/node-robotic-arm'
-import AbstractPackageTest from '../AbstractPackageTest'
+
+import { StimulusController } from '../../impl/TactileStimulusController.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class TactileStimulusControllerTest extends AbstractPackageTest {
 	private static instance: StimulusController

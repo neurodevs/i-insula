@@ -1,13 +1,14 @@
-import { test, assert } from '@sprucelabs/test-utils'
-import AbstractPackageTest from '../../AbstractPackageTest'
-import DummyProtocolRunner from '../../../testDoubles/ProtocolRunner/DummyProtocolRunner'
-import { FakeXdfRecorder } from '@neurodevs/node-xdf'
-import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
-import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
-import { FakeMarkerOutlet } from '@neurodevs/node-lsl'
-import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner'
-import { callsToSpeak } from '../../../testDoubles/say/fakeSpeak'
 import generateId from '@neurodevs/generate-id'
+import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
+import { FakeEventMarkerOutlet } from '@neurodevs/node-lsl'
+import { test, assert } from '@neurodevs/node-tdd'
+import { FakeXdfRecorder } from '@neurodevs/node-xdf'
+
+import AbstractPackageTest from '../../AbstractPackageTest.js'
+import DummyProtocolRunner from '../../../testDoubles/ProtocolRunner/DummyProtocolRunner.js'
+import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController.js'
+import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner.js'
+import { callsToSpeak } from '../../../testDoubles/say/fakeSpeak.js'
 
 export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	private static instance: ProtocolRunner
@@ -68,14 +69,14 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	protected static async pushesSessionBeginEventMarker() {
 		await this.runProtocol()
 
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[0], 'session-begin', 'Incorrect event marker!')
+		assert.isEqualDeep(FakeEventMarkerOutlet.callsToPushMarker[0], 'session-begin', 'Incorrect event marker!')
 	}
 
 	@test()
 	protected static async pushesPreBaselineBeginEventMarker() {
 		await this.runProtocol()
 
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[1], 'pre-baseline-begin', 'Incorrect event marker!')
+		assert.isEqualDeep(FakeEventMarkerOutlet.callsToPushMarker[1], 'pre-baseline-begin', 'Incorrect event marker!')
 	}
 
 	@test()
@@ -127,14 +128,14 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	protected static async pushesPreBaselineEndEventMarker() {
 		await this.runProtocol()
 
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[2], 'pre-baseline-end', 'Incorrect event marker!')
+		assert.isEqualDeep(FakeEventMarkerOutlet.callsToPushMarker[2], 'pre-baseline-end', 'Incorrect event marker!')
 	}
 
 	@test()
 	protected static async pushesPostBaselineBeginEventMarker() {
 		await this.runProtocol()
 
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[3], 'post-baseline-begin', 'Incorrect event marker!')
+		assert.isEqualDeep(FakeEventMarkerOutlet.callsToPushMarker[3], 'post-baseline-begin', 'Incorrect event marker!')
 	}
 
 	@test()
@@ -186,14 +187,14 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 	protected static async pushesPostBaselineEndEventMarker() {
 		await this.runProtocol()
 
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[4], 'post-baseline-end', 'Incorrect event marker!')
+		assert.isEqualDeep(FakeEventMarkerOutlet.callsToPushMarker[4], 'post-baseline-end', 'Incorrect event marker!')
 	}
 
 	@test()
 	protected static async pushesSessionEndEventMarker() {
 		await this.runProtocol()
 		
-		assert.isEqualDeep(FakeMarkerOutlet.callsToPushMarker[5], 'session-end', 'Incorrect event marker!')
+		assert.isEqualDeep(FakeEventMarkerOutlet.callsToPushMarker[5], 'session-end', 'Incorrect event marker!')
 	}
 	
 	@test()
@@ -250,7 +251,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 		return new DummyProtocolRunner({
 			'cgx': await this.CgxDeviceStreamer(),
 			'controller': await this.TactileStimulusController(),
-			'outlet': new FakeMarkerOutlet(),
+			'outlet': new FakeEventMarkerOutlet(),
 			'recorder': new FakeXdfRecorder(),
 			'xdfRecordPath': this.xdfRecordPath
 		})

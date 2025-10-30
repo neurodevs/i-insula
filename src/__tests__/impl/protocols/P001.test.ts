@@ -1,8 +1,9 @@
-import { test, assert } from '@sprucelabs/test-utils'
-import P001 from '../../../impl/protocols/P001'
-import AbstractPackageTest from '../../AbstractPackageTest'
-import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController'
-import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner'
+import { test, assert } from '@neurodevs/node-tdd'
+
+import P001 from '../../../impl/protocols/P001.js'
+import AbstractPackageTest from '../../AbstractPackageTest.js'
+import FakeStimulusController from '../../../testDoubles/StimulusController/FakeStimulusController.js'
+import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner.js'
 
 export default class P001Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner

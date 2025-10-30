@@ -1,14 +1,15 @@
-import { BiosensorDeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
-import { XdfRecorder } from "@neurodevs/node-xdf"
-import TactileStimulusController, { StimulusController } from "../TactileStimulusController"
-import { EventMarkerOutlet, MarkerOutlet } from "@neurodevs/node-lsl"
 import say from "say"
+import { BiosensorDeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
+import { LslEventMarkerOutlet, EventMarkerOutlet } from "@neurodevs/node-lsl"
+import { XdfRecorder } from "@neurodevs/node-xdf"
+
+import TactileStimulusController, { StimulusController } from "../TactileStimulusController.js"
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 	public static baselineMs = 300000
 	public static speak = say.speak
 	protected controller: StimulusController
-	protected outlet: MarkerOutlet
+	protected outlet: EventMarkerOutlet
 	protected xdfRecordPath: string
 
 	private cgx!: DeviceStreamer
@@ -126,7 +127,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 
 		const controller = await this.TactileStimulusController()
 		const [cgx, recorder] = await factory.createDevice('Cognionics Quick-20r', { xdfRecordPath }) as unknown as [DeviceStreamer, XdfRecorder]
-		const outlet = await this.EventMarkerOutlet()
+		const outlet = await this.LslEventMarkerOutlet()
 
 		return { controller, cgx, outlet, recorder, xdfRecordPath }
 	}
@@ -135,8 +136,8 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
 		return BiosensorDeviceFactory.Create()
 	}
 	
-	protected static async EventMarkerOutlet() {
-		return EventMarkerOutlet.Create()
+	protected static async LslEventMarkerOutlet() {
+		return LslEventMarkerOutlet.Create()
 	}
 	
 	protected static async TactileStimulusController() {
@@ -153,7 +154,7 @@ export type ProtocolRunnerConstructor = new (options: ProtocolRunnerConstructorO
 export interface ProtocolRunnerConstructorOptions {
 	controller: StimulusController
 	cgx: DeviceStreamer
-	outlet: MarkerOutlet
+	outlet: EventMarkerOutlet
 	recorder: XdfRecorder
 	xdfRecordPath: string
 }

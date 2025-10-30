@@ -1,8 +1,9 @@
-import { test, assert } from '@sprucelabs/test-utils'
-import ProtocolAnalyticsRunner, { AnalyticsRunner } from '../../impl/ProtocolAnalyticsRunner'
-import { FakeLslInlet } from '@neurodevs/node-lsl'
-import AbstractPackageTest from '../AbstractPackageTest'
 import { DeviceStreamer } from '@neurodevs/node-biosensors'
+import { FakeStreamInlet } from '@neurodevs/node-lsl'
+import { test, assert } from '@neurodevs/node-tdd'
+
+import AbstractPackageTest from '../AbstractPackageTest.js'
+import ProtocolAnalyticsRunner, { AnalyticsRunner } from '../../impl/ProtocolAnalyticsRunner.js'
 
 export default class ProtocolAnalyticsRunnerTest extends AbstractPackageTest {
 	private static instance: AnalyticsRunner
@@ -23,7 +24,7 @@ export default class ProtocolAnalyticsRunnerTest extends AbstractPackageTest {
 
 	@test()
 	protected static async createsCorrectNumberOfLslInlets() {
-		assert.isEqual(FakeLslInlet.callsToConstructor.length, this.numTotalOutlets, `Created incorrect number of LslInlet instances!`)
+		assert.isEqual(FakeStreamInlet.callsToConstructor.length, this.numTotalOutlets, `Created incorrect number of LslInlet instances!`)
 	}
 
 	private static async createDevices() {

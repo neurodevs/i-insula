@@ -1,7 +1,8 @@
-import { assert, test } from '@sprucelabs/test-utils'
-import P002 from '../../../impl/protocols/P002'
-import AbstractPackageTest from '../../AbstractPackageTest'
-import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner'
+import { assert, test } from '@neurodevs/node-tdd'
+
+import P002 from '../../../impl/protocols/P002.js'
+import AbstractPackageTest from '../../AbstractPackageTest.js'
+import AbstractProtocolRunner, { ProtocolRunner } from '../../../impl/protocols/AbstractProtocolRunner.js'
 
 export default class P002Test extends AbstractPackageTest {
 	private static instance: ProtocolRunner

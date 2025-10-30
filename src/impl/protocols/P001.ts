@@ -1,5 +1,5 @@
-import { ProtocolRunnerConstructor } from "./AbstractProtocolRunner"
-import AbstractProtocolRunner, { ProtocolRunnerConstructorOptions } from "./AbstractProtocolRunner"
+import { ProtocolRunnerConstructor } from "./AbstractProtocolRunner.js"
+import AbstractProtocolRunner, { ProtocolRunnerConstructorOptions } from "./AbstractProtocolRunner.js"
 
 export default class P001 extends AbstractProtocolRunner {
 	public static Class?: ProtocolRunnerConstructor
