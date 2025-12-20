@@ -18,18 +18,19 @@ export default class ProtocolAnalyticsRunner implements AnalyticsRunner {
 		devices.map((device: DeviceStreamer) => {
 			return device.outlets.map((outlet) => {
 				const options = {
-					'sampleRate': outlet.sampleRate,
+					'info': outlet.info,
+					'sampleRate': outlet.sampleRateHz,
 					'channelNames': outlet.channelNames,
 					'channelFormat': outlet.channelFormat,
 					'chunkSize': outlet.chunkSize,
-					'maxBuffered': outlet.maxBuffered,
+					'maxBuffered': outlet.maxBufferedMs,
 					'name': outlet.name,
 					'type': outlet.type,
 					'sourceId': outlet.sourceId,
 					'manufacturer': outlet.manufacturer,
-					'units': outlet.unit
+					'units': outlet.units,
 				}
-				return LslStreamInlet.Create(options)
+				return LslStreamInlet.Create(options, () => {})
 			})
 		})
 	}
