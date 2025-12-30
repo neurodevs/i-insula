@@ -1,19 +1,38 @@
-import { BiosensorDeviceFactory, CgxDeviceStreamer, FakeCgxDeviceStreamer, FakeDeviceFactory } from "@neurodevs/node-biosensors"
-import { FakeStreamInlet, FakeStreamOutlet, FakeStreamInfo, LslStreamInfo, LslStreamInlet, LslStreamOutlet } from "@neurodevs/node-lsl"
-import { WaveshareRoboticArm, FakeRoboticArm, FakeAxios } from "@neurodevs/node-robotic-arm"
-import { AutoWifiConnector, FakeWifiConnector } from "@neurodevs/node-wifi-connector"
-import { FakeXdfRecorder, XdfStreamRecorder } from "@neurodevs/node-xdf"
-import AbstractModuleTest from "@neurodevs/node-tdd"
+import {
+    BiosensorDeviceFactory,
+    CgxDeviceStreamer,
+    FakeCgxDeviceStreamer,
+    FakeDeviceFactory,
+} from '@neurodevs/node-biosensors'
+import {
+    FakeStreamInlet,
+    FakeStreamOutlet,
+    FakeStreamInfo,
+    LslStreamInfo,
+    LslStreamInlet,
+    LslStreamOutlet,
+} from '@neurodevs/node-lsl'
+import {
+    WaveshareRoboticArm,
+    FakeRoboticArm,
+    FakeAxios,
+} from '@neurodevs/node-robotic-arm'
+import AbstractModuleTest from '@neurodevs/node-tdd'
+import {
+    AutoWifiConnector,
+    FakeWifiConnector,
+} from '@neurodevs/node-wifi-connector'
+import { FakeXdfRecorder, XdfStreamRecorder } from '@neurodevs/node-xdf'
 import type { AxiosStatic } from 'axios'
 
-import TactileStimulusController from "../impl/TactileStimulusController.js"
-import FakeStimulusController from "../testDoubles/StimulusController/FakeStimulusController.js"
-import AbstractProtocolRunner from "../impl/protocols/AbstractProtocolRunner.js"
-import fakeSpeak, { resetFakeSpeak } from "../testDoubles/say/fakeSpeak.js"
+import AbstractProtocolRunner from '../impl/protocols/AbstractProtocolRunner.js'
+import TactileStimulusController from '../impl/TactileStimulusController.js'
+import fakeSpeak, { resetFakeSpeak } from '../testDoubles/say/fakeSpeak.js'
+import FakeStimulusController from '../testDoubles/StimulusController/FakeStimulusController.js'
 
 export default class AbstractPackageTest extends AbstractModuleTest {
-	protected static async beforeEach() {
-		await super.beforeEach()
+    protected static async beforeEach() {
+        await super.beforeEach()
 
         AbstractProtocolRunner.baselineMs = 0
 
@@ -27,7 +46,7 @@ export default class AbstractPackageTest extends AbstractModuleTest {
         this.setFakeWifiConnector()
         this.setFakeRoboticArm()
         this.setFakeXdfRecorder()
-	}
+    }
 
     protected static setFakeAxios() {
         WaveshareRoboticArm.axios = new FakeAxios() as unknown as AxiosStatic
@@ -47,9 +66,9 @@ export default class AbstractPackageTest extends AbstractModuleTest {
     }
 
     protected static setFakeSpeak() {
-		AbstractProtocolRunner.speak = fakeSpeak
-		resetFakeSpeak()
-	}
+        AbstractProtocolRunner.speak = fakeSpeak
+        resetFakeSpeak()
+    }
 
     protected static setFakeStreamInfo() {
         LslStreamInfo.Class = FakeStreamInfo
@@ -87,10 +106,10 @@ export default class AbstractPackageTest extends AbstractModuleTest {
     }
 
     protected static async CgxDeviceStreamer() {
-		return CgxDeviceStreamer.Create()
-	}
+        return CgxDeviceStreamer.Create()
+    }
 
     protected static async TactileStimulusController() {
-		return TactileStimulusController.Create()
-	}
+        return TactileStimulusController.Create()
+    }
 }

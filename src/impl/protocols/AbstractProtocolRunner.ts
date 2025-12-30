@@ -1,160 +1,177 @@
-import say from "say"
-import { BiosensorDeviceFactory, DeviceStreamer } from "@neurodevs/node-biosensors"
-import { LslEventMarkerOutlet, EventMarkerOutlet } from "@neurodevs/node-lsl"
-import { XdfRecorder } from "@neurodevs/node-xdf"
+import {
+    BiosensorDeviceFactory,
+    DeviceStreamer,
+} from '@neurodevs/node-biosensors'
+import { LslEventMarkerOutlet, EventMarkerOutlet } from '@neurodevs/node-lsl'
+import { XdfRecorder } from '@neurodevs/node-xdf'
+import say from 'say'
 
-import TactileStimulusController, { StimulusController } from "../TactileStimulusController.js"
+import TactileStimulusController, {
+    StimulusController,
+} from '../TactileStimulusController.js'
 
 export default abstract class AbstractProtocolRunner implements ProtocolRunner {
-	public static baselineMs = 300000
-	public static speak = say.speak
-	protected controller: StimulusController
-	protected outlet: EventMarkerOutlet
-	protected xdfRecordPath: string
+    public static baselineMs = 300000
+    public static speak = say.speak
+    protected controller: StimulusController
+    protected outlet: EventMarkerOutlet
+    protected xdfRecordPath: string
 
-	private cgx!: DeviceStreamer
-	private recorder!: XdfRecorder
+    private cgx!: DeviceStreamer
+    private recorder!: XdfRecorder
 
-	protected constructor(options: ProtocolRunnerConstructorOptions) {
-		const { controller, cgx, outlet, recorder, xdfRecordPath } = options
+    protected constructor(options: ProtocolRunnerConstructorOptions) {
+        const { controller, cgx, outlet, recorder, xdfRecordPath } = options
 
-		this.controller = controller
-		this.cgx = cgx
-		this.outlet = outlet
-		this.recorder = recorder
-		this.xdfRecordPath = xdfRecordPath
-	}
+        this.controller = controller
+        this.cgx = cgx
+        this.outlet = outlet
+        this.recorder = recorder
+        this.xdfRecordPath = xdfRecordPath
+    }
 
-	public async run() {
-		await this.setup()
-		await this.startSession()
-		await this.teardown()
-	}
+    public async run() {
+        await this.setup()
+        await this.startSession()
+        await this.teardown()
+    }
 
-	private async setup() {
-		this.startXdfRecorder()
-		await this.startStreamingOnDevices()
-	}
+    private async setup() {
+        this.startXdfRecorder()
+        await this.startStreamingOnDevices()
+    }
 
-	private startXdfRecorder() {
-		this.recorder.start()
-	}
+    private startXdfRecorder() {
+        this.recorder.start()
+    }
 
-	private async startStreamingOnDevices() {
-		await this.cgx.startStreaming()
-	}
+    private async startStreamingOnDevices() {
+        await this.cgx.startStreaming()
+    }
 
-	private async startSession() {
-		this.pushMarker('session-begin')
+    private async startSession() {
+        this.pushMarker('session-begin')
 
-		await this.startPreBaseline()
-		await this.deliverRandomizedStimuli()
-		await this.startPostBaseline()
+        await this.startPreBaseline()
+        await this.deliverRandomizedStimuli()
+        await this.startPostBaseline()
 
-		this.pushMarker('session-end')
-	}
+        this.pushMarker('session-end')
+    }
 
-	private pushMarker(markerName: string) {
-		return this.outlet.pushMarker(markerName)
-	}
+    private pushMarker(markerName: string) {
+        return this.outlet.pushMarker(markerName)
+    }
 
-	private async startPreBaseline() {
-		this.pushMarker('pre-baseline-begin')
+    private async startPreBaseline() {
+        this.pushMarker('pre-baseline-begin')
 
-		this.speakPreBaselineBefore()
-		await this.waitForBaselineMs()
-		this.speakPreBaselineAfter()
+        this.speakPreBaselineBefore()
+        await this.waitForBaselineMs()
+        this.speakPreBaselineAfter()
 
-		this.pushMarker('pre-baseline-end')
-	}
+        this.pushMarker('pre-baseline-end')
+    }
 
-	private speakPreBaselineBefore() {
-		this.speak('Pre-trial baseline begins...', undefined, undefined, () => {
-			this.speak('Now.')
-		})
-	}
-	
-	private async waitForBaselineMs() {
-		await new Promise(r => setTimeout(r, AbstractProtocolRunner.baselineMs))
-	}
+    private speakPreBaselineBefore() {
+        this.speak('Pre-trial baseline begins...', undefined, undefined, () => {
+            this.speak('Now.')
+        })
+    }
 
-	private speakPreBaselineAfter() {
-		this.speak('Pre-trial baseline is done.')
-	}
+    private async waitForBaselineMs() {
+        await new Promise((r) =>
+            setTimeout(r, AbstractProtocolRunner.baselineMs)
+        )
+    }
 
-	protected abstract deliverRandomizedStimuli(): Promise<void>
+    private speakPreBaselineAfter() {
+        this.speak('Pre-trial baseline is done.')
+    }
 
-	private async startPostBaseline() {
-		this.pushMarker('post-baseline-begin')
+    protected abstract deliverRandomizedStimuli(): Promise<void>
 
-		this.speakPostBaselineBefore()
-		await this.waitForBaselineMs()
-		this.speakPostBaselineAfter()
+    private async startPostBaseline() {
+        this.pushMarker('post-baseline-begin')
 
-		this.pushMarker('post-baseline-end')
-	}
-	
-	private speakPostBaselineBefore() {
-		this.speak('Post-trial baseline begins...', undefined, undefined, () => {
-			this.speak('Now.')
-		})
-	}
+        this.speakPostBaselineBefore()
+        await this.waitForBaselineMs()
+        this.speakPostBaselineAfter()
 
-	private speakPostBaselineAfter() {
-		this.speak('Post-trial baseline is done.')
-	}
+        this.pushMarker('post-baseline-end')
+    }
 
-	private async teardown() {
-		this.stopXdfRecorder()
-		await this.disconnectAll()
-	}
+    private speakPostBaselineBefore() {
+        this.speak(
+            'Post-trial baseline begins...',
+            undefined,
+            undefined,
+            () => {
+                this.speak('Now.')
+            }
+        )
+    }
 
-	private stopXdfRecorder() {
-		this.recorder.stop()
-	}
+    private speakPostBaselineAfter() {
+        this.speak('Post-trial baseline is done.')
+    }
 
-	private async disconnectAll() {
-		await this.controller.disconnect()
-		await this.cgx.disconnect()
-	}
+    private async teardown() {
+        this.stopXdfRecorder()
+        await this.disconnectAll()
+    }
 
-	private get speak() {
-		return AbstractProtocolRunner.speak
-	}
+    private stopXdfRecorder() {
+        this.recorder.stop()
+    }
 
-	protected static async generateOptions(xdfRecordPath: string) {
-		const factory = this.BiosensorDeviceFactory()
+    private async disconnectAll() {
+        await this.controller.disconnect()
+        await this.cgx.disconnect()
+    }
 
-		const controller = await this.TactileStimulusController()
-		const { device: cgx, recorder } = await factory.createDevice('Cognionics Quick-20r', { xdfRecordPath })
-		const outlet = await this.LslEventMarkerOutlet()
+    private get speak() {
+        return AbstractProtocolRunner.speak
+    }
 
-		return { controller, cgx, outlet, recorder: recorder!, xdfRecordPath }
-	}
+    protected static async generateOptions(xdfRecordPath: string) {
+        const factory = this.BiosensorDeviceFactory()
 
-	protected static BiosensorDeviceFactory() {
-		return BiosensorDeviceFactory.Create()
-	}
-	
-	protected static async LslEventMarkerOutlet() {
-		return LslEventMarkerOutlet.Create()
-	}
-	
-	protected static async TactileStimulusController() {
-		return TactileStimulusController.Create()
-	}
+        const controller = await this.TactileStimulusController()
+        const { device: cgx, recorder } = await factory.createDevice(
+            'Cognionics Quick-20r',
+            { xdfRecordPath }
+        )
+        const outlet = await this.LslEventMarkerOutlet()
+
+        return { controller, cgx, outlet, recorder: recorder!, xdfRecordPath }
+    }
+
+    protected static BiosensorDeviceFactory() {
+        return BiosensorDeviceFactory.Create()
+    }
+
+    protected static async LslEventMarkerOutlet() {
+        return LslEventMarkerOutlet.Create()
+    }
+
+    protected static async TactileStimulusController() {
+        return TactileStimulusController.Create()
+    }
 }
 
 export interface ProtocolRunner {
-	run(): Promise<void>
+    run(): Promise<void>
 }
 
-export type ProtocolRunnerConstructor = new (options: ProtocolRunnerConstructorOptions) => ProtocolRunner
+export type ProtocolRunnerConstructor = new (
+    options: ProtocolRunnerConstructorOptions
+) => ProtocolRunner
 
 export interface ProtocolRunnerConstructorOptions {
-	controller: StimulusController
-	cgx: DeviceStreamer
-	outlet: EventMarkerOutlet
-	recorder: XdfRecorder
-	xdfRecordPath: string
+    controller: StimulusController
+    cgx: DeviceStreamer
+    outlet: EventMarkerOutlet
+    recorder: XdfRecorder
+    xdfRecordPath: string
 }

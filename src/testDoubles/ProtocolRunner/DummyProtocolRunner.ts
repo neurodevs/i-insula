@@ -1,9 +1,15 @@
-import AbstractProtocolRunner, { ProtocolRunner, ProtocolRunnerConstructorOptions } from '../../impl/protocols/AbstractProtocolRunner.js'
+import AbstractProtocolRunner, {
+    ProtocolRunner,
+    ProtocolRunnerConstructorOptions,
+} from '../../impl/protocols/AbstractProtocolRunner.js'
 
-export default class DummyProtocolRunner extends AbstractProtocolRunner implements ProtocolRunner {
+export default class DummyProtocolRunner
+    extends AbstractProtocolRunner
+    implements ProtocolRunner
+{
     public constructor(options: ProtocolRunnerConstructorOptions) {
         super(options)
     }
 
-    protected async deliverRandomizedStimuli() { }
+    protected async deliverRandomizedStimuli() {}
 }

@@ -1,16 +1,16 @@
-import { RoboticArm } from "@neurodevs/node-robotic-arm"
-import { StimulusController } from "../../impl/TactileStimulusController.js"
+import { RoboticArm } from '@neurodevs/node-robotic-arm'
+import { StimulusController } from '../../impl/TactileStimulusController.js'
 
 export default class FakeStimulusController implements StimulusController {
     public static callsToConstructor: RoboticArm[] = []
     public static callsToStimulateForearm: ('left' | 'right')[] = []
-    public static numCallsToDisconnect: number = 0
+    public static numCallsToDisconnect = 0
 
     public constructor(arm: RoboticArm) {
         FakeStimulusController.callsToConstructor.push(arm)
     }
-    
-    public async stimulateForearm(side: 'left' | 'right'){
+
+    public async stimulateForearm(side: 'left' | 'right') {
         FakeStimulusController.callsToStimulateForearm.push(side)
     }
 

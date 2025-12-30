@@ -1,7 +1,15 @@
-import { ProtocolRunner, ProtocolRunnerConstructor } from "./AbstractProtocolRunner.js"
-import AbstractProtocolRunner, { ProtocolRunnerConstructorOptions } from "./AbstractProtocolRunner.js"
+import {
+    ProtocolRunner,
+    ProtocolRunnerConstructor,
+} from './AbstractProtocolRunner.js'
+import AbstractProtocolRunner, {
+    ProtocolRunnerConstructorOptions,
+} from './AbstractProtocolRunner.js'
 
-export default class P002 extends AbstractProtocolRunner implements ProtocolRunner {
+export default class P002
+    extends AbstractProtocolRunner
+    implements ProtocolRunner
+{
     public static Class?: ProtocolRunnerConstructor
     private static readonly xdfRecordPath = '../data/P002'
 

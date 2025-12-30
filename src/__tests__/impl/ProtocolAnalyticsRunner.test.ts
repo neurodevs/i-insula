@@ -2,46 +2,53 @@ import { DeviceStreamer } from '@neurodevs/node-biosensors'
 import { FakeStreamInlet } from '@neurodevs/node-lsl'
 import { test, assert } from '@neurodevs/node-tdd'
 
+import ProtocolAnalyticsRunner, {
+    AnalyticsRunner,
+} from '../../impl/ProtocolAnalyticsRunner.js'
 import AbstractPackageTest from '../AbstractPackageTest.js'
-import ProtocolAnalyticsRunner, { AnalyticsRunner } from '../../impl/ProtocolAnalyticsRunner.js'
 
 export default class ProtocolAnalyticsRunnerTest extends AbstractPackageTest {
-	private static instance: AnalyticsRunner
-	private static devices: DeviceStreamer[]
+    private static instance: AnalyticsRunner
+    private static devices: DeviceStreamer[]
 
-	protected static async beforeEach() {
-		await super.beforeEach()
+    protected static async beforeEach() {
+        await super.beforeEach()
 
-		this.devices = await this.createDevices()
-		
-		this.instance = this.ProtocolAnalyticsRunner()
-	}
-	
-	@test()
-	protected static async createsInstance() {
-		assert.isTruthy(this.instance, 'Failed to create instance!')
-	}
+        this.devices = await this.createDevices()
 
-	@test()
-	protected static async createsCorrectNumberOfLslInlets() {
-		assert.isEqual(FakeStreamInlet.callsToConstructor.length, this.numTotalOutlets, `Created incorrect number of LslInlet instances!`)
-	}
+        this.instance = this.ProtocolAnalyticsRunner()
+    }
 
-	private static async createDevices() {
-		return [
-			await this.CgxDeviceStreamer()
-		]
-	}
+    @test()
+    protected static async createsInstance() {
+        assert.isTruthy(this.instance, 'Failed to create instance!')
+    }
 
-	private static get numTotalOutlets() {
-		return this.devices.reduce((total, device) => total + device.outlets.length, 0)
-	}
+    @test()
+    protected static async createsCorrectNumberOfLslInlets() {
+        assert.isEqual(
+            FakeStreamInlet.callsToConstructor.length,
+            this.numTotalOutlets,
+            `Created incorrect number of LslInlet instances!`
+        )
+    }
 
-	private static get options() {
-		return { devices: this.devices }
-	}
+    private static async createDevices() {
+        return [await this.CgxDeviceStreamer()]
+    }
 
-	private static ProtocolAnalyticsRunner() {
-		return ProtocolAnalyticsRunner.Create(this.options)
-	}
+    private static get numTotalOutlets() {
+        return this.devices.reduce(
+            (total, device) => total + device.outlets.length,
+            0
+        )
+    }
+
+    private static get options() {
+        return { devices: this.devices }
+    }
+
+    private static ProtocolAnalyticsRunner() {
+        return ProtocolAnalyticsRunner.Create(this.options)
+    }
 }
