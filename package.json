@@ -48,7 +48,7 @@
     "say": "^0.16.0"
   },
   "devDependencies": {
-    "@neurodevs/generate-id": "^1.0.9",
+    "@neurodevs/generate-id": "1.1.1",
     "@neurodevs/node-tdd": "0.2.3",
     "@neurodevs/node-wifi-connector": "1.1.4",
     "@neurodevs/node-xdf": "^1.4.6",
