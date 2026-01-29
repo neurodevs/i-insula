@@ -52,6 +52,8 @@
     "@neurodevs/node-tdd": "0.2.5",
     "@neurodevs/node-wifi-connector": "1.1.4",
     "@neurodevs/node-xdf": "^1.4.6",
+    "@regressionproof/cli": "^0.8.0",
+    "@regressionproof/jest-reporter": "^0.8.0",
     "@types/node": "^25.0.2",
     "eslint": "^9.39.1",
     "eslint-config-spruce": "^11.2.26",
@@ -78,6 +80,10 @@
     ],
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
-    }
+    },
+    "reporters": [
+      "default",
+      "@regressionproof/jest-reporter"
+    ]
   }
 }
