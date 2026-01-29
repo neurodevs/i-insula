@@ -18,7 +18,6 @@ export default class ProtocolAnalyticsRunner implements AnalyticsRunner {
         devices.map((device: DeviceStreamer) => {
             return device.outlets.map((outlet) => {
                 const options = {
-                    info: outlet.info,
                     sampleRate: outlet.sampleRateHz,
                     channelNames: outlet.channelNames,
                     channelFormat: outlet.channelFormat,

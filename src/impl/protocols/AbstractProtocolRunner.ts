@@ -2,7 +2,7 @@ import {
     BiosensorDeviceFactory,
     DeviceStreamer,
 } from '@neurodevs/node-biosensors'
-import { LslEventMarkerOutlet, EventMarkerOutlet } from '@neurodevs/node-lsl'
+import { LslEventMarkerEmitter, EventMarkerEmitter } from '@neurodevs/node-lsl'
 import { XdfRecorder } from '@neurodevs/node-xdf'
 import say from 'say'
 
@@ -14,18 +14,18 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
     public static baselineMs = 300000
     public static speak = say.speak
     protected controller: StimulusController
-    protected outlet: EventMarkerOutlet
+    protected emitter: EventMarkerEmitter
     protected xdfRecordPath: string
 
     private cgx!: DeviceStreamer
     private recorder!: XdfRecorder
 
     protected constructor(options: ProtocolRunnerConstructorOptions) {
-        const { controller, cgx, outlet, recorder, xdfRecordPath } = options
+        const { controller, cgx, emitter, recorder, xdfRecordPath } = options
 
         this.controller = controller
         this.cgx = cgx
-        this.outlet = outlet
+        this.emitter = emitter
         this.recorder = recorder
         this.xdfRecordPath = xdfRecordPath
     }
@@ -50,27 +50,27 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
     }
 
     private async startSession() {
-        this.pushMarker('session-begin')
+        await this.emit('session-begin')
 
         await this.startPreBaseline()
         await this.deliverRandomizedStimuli()
         await this.startPostBaseline()
 
-        this.pushMarker('session-end')
+        await this.emit('session-end')
     }
 
-    private pushMarker(markerName: string) {
-        return this.outlet.pushMarker(markerName)
+    private emit(markerName: string) {
+        return this.emitter.emit(markerName)
     }
 
     private async startPreBaseline() {
-        this.pushMarker('pre-baseline-begin')
+        await this.emit('pre-baseline-begin')
 
         this.speakPreBaselineBefore()
         await this.waitForBaselineMs()
         this.speakPreBaselineAfter()
 
-        this.pushMarker('pre-baseline-end')
+        await this.emit('pre-baseline-end')
     }
 
     private speakPreBaselineBefore() {
@@ -92,13 +92,13 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
     protected abstract deliverRandomizedStimuli(): Promise<void>
 
     private async startPostBaseline() {
-        this.pushMarker('post-baseline-begin')
+        await this.emit('post-baseline-begin')
 
         this.speakPostBaselineBefore()
         await this.waitForBaselineMs()
         this.speakPostBaselineAfter()
 
-        this.pushMarker('post-baseline-end')
+        await this.emit('post-baseline-end')
     }
 
     private speakPostBaselineBefore() {
@@ -117,12 +117,12 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
     }
 
     private async teardown() {
-        this.stopXdfRecorder()
+        this.finishXdfRecorder()
         await this.disconnectAll()
     }
 
-    private stopXdfRecorder() {
-        this.recorder.stop()
+    private finishXdfRecorder() {
+        this.recorder.finish()
     }
 
     private async disconnectAll() {
@@ -134,7 +134,9 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
         return AbstractProtocolRunner.speak
     }
 
-    protected static async generateOptions(xdfRecordPath: string) {
+    protected static async generateOptions(
+        xdfRecordPath: string
+    ): Promise<ProtocolRunnerConstructorOptions> {
         const factory = this.BiosensorDeviceFactory()
 
         const controller = await this.TactileStimulusController()
@@ -142,17 +144,17 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
             'Cognionics Quick-20r',
             { xdfRecordPath }
         )
-        const outlet = await this.LslEventMarkerOutlet()
+        const emitter = await this.LslEventMarkerEmitter()
 
-        return { controller, cgx, outlet, recorder: recorder!, xdfRecordPath }
+        return { controller, cgx, emitter, recorder: recorder!, xdfRecordPath }
     }
 
     protected static BiosensorDeviceFactory() {
         return BiosensorDeviceFactory.Create()
     }
 
-    protected static async LslEventMarkerOutlet() {
-        return LslEventMarkerOutlet.Create()
+    protected static async LslEventMarkerEmitter() {
+        return LslEventMarkerEmitter.Create()
     }
 
     protected static async TactileStimulusController() {
@@ -171,7 +173,7 @@ export type ProtocolRunnerConstructor = new (
 export interface ProtocolRunnerConstructorOptions {
     controller: StimulusController
     cgx: DeviceStreamer
-    outlet: EventMarkerOutlet
+    emitter: EventMarkerEmitter
     recorder: XdfRecorder
     xdfRecordPath: string
 }

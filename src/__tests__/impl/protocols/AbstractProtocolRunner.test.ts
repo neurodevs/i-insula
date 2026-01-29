@@ -1,6 +1,6 @@
 import generateId from '@neurodevs/generate-id'
 import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
-import { FakeEventMarkerOutlet } from '@neurodevs/node-lsl'
+import { FakeEventMarkerEmitter } from '@neurodevs/node-lsl'
 import { test, assert } from '@neurodevs/node-tdd'
 import { FakeXdfRecorder } from '@neurodevs/node-xdf'
 
@@ -90,7 +90,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         await this.runProtocol()
 
         assert.isEqualDeep(
-            FakeEventMarkerOutlet.callsToPushMarker[0],
+            FakeEventMarkerEmitter.callsToEmit[0].markerName,
             'session-begin',
             'Incorrect event marker!'
         )
@@ -101,7 +101,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         await this.runProtocol()
 
         assert.isEqualDeep(
-            FakeEventMarkerOutlet.callsToPushMarker[1],
+            FakeEventMarkerEmitter.callsToEmit[1].markerName,
             'pre-baseline-begin',
             'Incorrect event marker!'
         )
@@ -140,7 +140,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         let t1: number | undefined
 
         //@ts-ignore
-        this.instance.outlet.pushMarker = (markerName: string) => {
+        this.instance.emitter.emit = async (markerName: string) => {
             if (markerName === 'pre-baseline-begin') {
                 t0 = Date.now()
             } else if (markerName === 'pre-baseline-end') {
@@ -173,7 +173,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         await this.runProtocol()
 
         assert.isEqualDeep(
-            FakeEventMarkerOutlet.callsToPushMarker[2],
+            FakeEventMarkerEmitter.callsToEmit[2].markerName,
             'pre-baseline-end',
             'Incorrect event marker!'
         )
@@ -184,7 +184,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         await this.runProtocol()
 
         assert.isEqualDeep(
-            FakeEventMarkerOutlet.callsToPushMarker[3],
+            FakeEventMarkerEmitter.callsToEmit[3].markerName,
             'post-baseline-begin',
             'Incorrect event marker!'
         )
@@ -223,7 +223,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         let t1: number | undefined
 
         //@ts-ignore
-        this.instance.outlet.pushMarker = (markerName: string) => {
+        this.instance.emitter.emit = async (markerName: string) => {
             if (markerName === 'post-baseline-begin') {
                 t0 = Date.now()
             } else if (markerName === 'post-baseline-end') {
@@ -256,7 +256,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         await this.runProtocol()
 
         assert.isEqualDeep(
-            FakeEventMarkerOutlet.callsToPushMarker[4],
+            FakeEventMarkerEmitter.callsToEmit[4].markerName,
             'post-baseline-end',
             'Incorrect event marker!'
         )
@@ -267,20 +267,20 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         await this.runProtocol()
 
         assert.isEqualDeep(
-            FakeEventMarkerOutlet.callsToPushMarker[5],
+            FakeEventMarkerEmitter.callsToEmit[5].markerName,
             'session-end',
             'Incorrect event marker!'
         )
     }
 
     @test()
-    protected static async callsStopOnXdfStreamRecorder() {
+    protected static async callsFinishOnXdfRecorder() {
         await this.runProtocol()
 
         assert.isEqual(
-            FakeXdfRecorder.numCallsToStop,
+            FakeXdfRecorder.numCallsToFinish,
             1,
-            'Should call stop on XdfRecorder!'
+            'Should call finish on XdfRecorder!'
         )
     }
 
@@ -316,7 +316,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         }
 
         //@ts-ignore
-        this.instance.outlet.pushMarker = (marker: string) => {
+        this.instance.emitter.emit = async (marker: string) => {
             orderedCalls.push(marker)
         }
 
@@ -343,7 +343,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
         return new DummyProtocolRunner({
             cgx: await this.CgxDeviceStreamer(),
             controller: await this.TactileStimulusController(),
-            outlet: new FakeEventMarkerOutlet(),
+            emitter: new FakeEventMarkerEmitter(),
             recorder: new FakeXdfRecorder(),
             xdfRecordPath: this.xdfRecordPath,
         })
