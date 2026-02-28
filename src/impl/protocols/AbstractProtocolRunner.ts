@@ -140,11 +140,12 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
         const factory = this.BiosensorDeviceFactory()
 
         const controller = await this.TactileStimulusController()
+        const emitter = await this.LslEventMarkerEmitter()
+
         const { device: cgx, recorder } = await factory.createDevice(
             'Cognionics Quick-20r',
             { xdfRecordPath }
         )
-        const emitter = await this.LslEventMarkerEmitter()
 
         return { controller, cgx, emitter, recorder: recorder!, xdfRecordPath }
     }
