@@ -825,13 +825,12 @@
     "@quickstat/nodejs" "^0.0.4"
     "@quickstat/prometheus" "^0.0.4"
 
-"@neurodevs/node-tdd@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@neurodevs/node-tdd/-/node-tdd-1.0.9.tgz#295f91393f900d79bfb3ad2dff00f3cd84141ca3"
-  integrity sha512-bORwMj8DqXL6P72ll4Q4MH/Bt+pEHYPNL3+1cyHWce/1f6h9EU3a7aWTRxa5s5K/NCZqhmhQ0XuyG7/wFH5Ujg==
+"@neurodevs/node-tdd@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@neurodevs/node-tdd/-/node-tdd-1.1.0.tgz#9bf9bcd5667000f2989d0f54c733cf832746bfa8"
+  integrity sha512-wFuG3INOj11cCiEjHPZMpWqF58YidUw7RHz6EnD4dOtnUab7gHTQG5SQ7AGMfZgafw3zEbWXGNXXju5jn6DD/w==
   dependencies:
     "@neurodevs/generate-id" "^1.1.2"
-    "@sprucelabs/jest-json-reporter" "^10.0.33"
     chalk "^5.6.2"
     chokidar "^5.0.0"
     deep-equal "^2.2.3"
@@ -932,11 +931,6 @@
   integrity sha512-DsG+8/LscQIQg68J6Ef3dv10u6nVyetYn923s3/sus5eaGfTo1of5WMZSLf0UJc9KDuKPilPH0UDJCjvNbDNCA==
   dependencies:
     "@sinonjs/commons" "^3.0.1"
-
-"@sprucelabs/jest-json-reporter@^10.0.33":
-  version "10.0.33"
-  resolved "https://registry.yarnpkg.com/@sprucelabs/jest-json-reporter/-/jest-json-reporter-10.0.33.tgz#340604f9113d365f8ab96df35e68fc921bcac36b"
-  integrity sha512-OhcilepN2ujGWn9Sj6o4Y5klv6gdpma1UvpSJrBU0uSL37GaRhquVg9JnsT/uJnFKB5oOuXBGCF91CxHeLOspg==
 
 "@tybys/wasm-util@^0.10.0":
   version "0.10.2"
