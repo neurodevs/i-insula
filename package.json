@@ -44,7 +44,7 @@
   "devDependencies": {
     "@neurodevs/eslint-config-ndx": "^1.0.1",
     "@neurodevs/generate-id": "^1.1.2",
-    "@neurodevs/node-tdd": "^1.1.0",
+    "@neurodevs/node-tdd": "^1.1.2",
     "@neurodevs/node-wifi-connector": "^1.1.4",
     "@neurodevs/node-xdf": "^5.0.0",
     "@neurodevs/prettier-config-ndx": "^1.0.2",
