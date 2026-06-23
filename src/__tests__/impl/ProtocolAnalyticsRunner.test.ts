@@ -1,4 +1,4 @@
-import { DeviceStreamer } from '@neurodevs/node-biosensors'
+import { DeviceController } from '@neurodevs/node-biosensors'
 import { FakeStreamInlet } from '@neurodevs/node-lsl'
 import { test, assert } from '@neurodevs/node-tdd'
 
@@ -9,7 +9,7 @@ import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class ProtocolAnalyticsRunnerTest extends AbstractPackageTest {
     private static instance: AnalyticsRunner
-    private static devices: DeviceStreamer[]
+    private static devices: DeviceController[]
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -34,7 +34,7 @@ export default class ProtocolAnalyticsRunnerTest extends AbstractPackageTest {
     }
 
     private static async createDevices() {
-        return [await this.CgxDeviceStreamer()]
+        return [await this.CgxDeviceController()]
     }
 
     private static get numTotalOutlets() {

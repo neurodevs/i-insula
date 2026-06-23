@@ -36,8 +36,8 @@
     "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn run build.copy-files'"
   },
   "dependencies": {
-    "@neurodevs/node-biosensors": "^7.0.0",
-    "@neurodevs/node-lsl": "^18.0.0",
+    "@neurodevs/node-biosensors": "^8.0.0",
+    "@neurodevs/node-lsl": "^18.1.0",
     "@neurodevs/node-robotic-arm": "^1.0.7",
     "say": "^0.16.0"
   },

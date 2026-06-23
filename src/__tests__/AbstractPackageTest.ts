@@ -1,7 +1,7 @@
 import {
     BiosensorDeviceFactory,
-    CgxDeviceStreamer,
-    FakeCgxDeviceStreamer,
+    CgxDeviceController,
+    FakeCgxDeviceController,
     FakeDeviceFactory,
 } from '@neurodevs/node-biosensors'
 import {
@@ -37,7 +37,7 @@ export default class AbstractPackageTest extends AbstractModuleTest {
         AbstractProtocolRunner.baselineMs = 0
 
         this.setFakeAxios()
-        this.setFakeCgxDeviceStreamer()
+        this.setFakeCgxDeviceController()
         this.setFakeDeviceFactory()
         this.setFakeStreamInlet()
         this.setFakeStreamOutlet()
@@ -52,9 +52,9 @@ export default class AbstractPackageTest extends AbstractModuleTest {
         WaveshareRoboticArm.axios = new FakeAxios() as unknown as AxiosStatic
     }
 
-    protected static setFakeCgxDeviceStreamer() {
-        CgxDeviceStreamer.Class = FakeCgxDeviceStreamer
-        FakeCgxDeviceStreamer.resetTestDouble()
+    protected static setFakeCgxDeviceController() {
+        CgxDeviceController.Class = FakeCgxDeviceController
+        FakeCgxDeviceController.resetTestDouble()
     }
 
     protected static setFakeDeviceFactory() {
@@ -62,7 +62,7 @@ export default class AbstractPackageTest extends AbstractModuleTest {
         FakeDeviceFactory.resetTestDouble()
 
         // @ts-ignore
-        FakeDeviceFactory.fakeDevice = new FakeCgxDeviceStreamer()
+        FakeDeviceFactory.fakeDevice = new FakeCgxDeviceController()
     }
 
     protected static setFakeSpeak() {
@@ -105,8 +105,8 @@ export default class AbstractPackageTest extends AbstractModuleTest {
         FakeXdfRecorder.resetTestDouble()
     }
 
-    protected static async CgxDeviceStreamer() {
-        return CgxDeviceStreamer.Create()
+    protected static async CgxDeviceController() {
+        return CgxDeviceController.Create()
     }
 
     protected static async TactileStimulusController() {

@@ -1,6 +1,6 @@
 import {
     BiosensorDeviceFactory,
-    DeviceStreamer,
+    DeviceController,
 } from '@neurodevs/node-biosensors'
 import { LslEventMarkerEmitter, EventMarkerEmitter } from '@neurodevs/node-lsl'
 import { XdfRecorder } from '@neurodevs/node-xdf'
@@ -17,7 +17,7 @@ export default abstract class AbstractProtocolRunner implements ProtocolRunner {
     protected emitter: EventMarkerEmitter
     protected xdfRecordPath: string
 
-    private cgx!: DeviceStreamer
+    private cgx!: DeviceController
     private recorder!: XdfRecorder
 
     protected constructor(options: ProtocolRunnerConstructorOptions) {
@@ -173,7 +173,7 @@ export type ProtocolRunnerConstructor = new (
 
 export interface ProtocolRunnerConstructorOptions {
     controller: StimulusController
-    cgx: DeviceStreamer
+    cgx: DeviceController
     emitter: EventMarkerEmitter
     recorder: XdfRecorder
     xdfRecordPath: string

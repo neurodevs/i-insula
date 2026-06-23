@@ -1,5 +1,5 @@
 import generateId from '@neurodevs/generate-id'
-import { FakeCgxDeviceStreamer } from '@neurodevs/node-biosensors'
+import { FakeCgxDeviceController } from '@neurodevs/node-biosensors'
 import { FakeEventMarkerEmitter } from '@neurodevs/node-lsl'
 import { test, assert } from '@neurodevs/node-tdd'
 import { FakeXdfRecorder } from '@neurodevs/node-xdf'
@@ -50,13 +50,13 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async callsStartStreamingOnCgxDeviceStreamer() {
+    protected static async callsStartStreamingOnCgxDeviceController() {
         await this.runProtocol()
 
         assert.isEqual(
-            FakeCgxDeviceStreamer.numCallsToStartStreaming,
+            FakeCgxDeviceController.numCallsToStartStreaming,
             1,
-            'Should call startStreaming on CgxDeviceStreamer!'
+            'Should call startStreaming on CgxDeviceController!'
         )
     }
 
@@ -296,13 +296,13 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async callsDisconnectOnCgxDeviceStreamer() {
+    protected static async callsDisconnectOnCgxDeviceController() {
         await this.runProtocol()
 
         assert.isEqual(
-            FakeCgxDeviceStreamer.numCallsToDisconnect,
+            FakeCgxDeviceController.numCallsToDisconnect,
             1,
-            'Should call disconnect on CgxDeviceStreamer!'
+            'Should call disconnect on CgxDeviceController!'
         )
     }
 
@@ -341,7 +341,7 @@ export default class AbstractProtocolRunnerTest extends AbstractPackageTest {
 
     private static async DummyProtocolRunner() {
         return new DummyProtocolRunner({
-            cgx: await this.CgxDeviceStreamer(),
+            cgx: await this.CgxDeviceController(),
             controller: await this.TactileStimulusController(),
             emitter: new FakeEventMarkerEmitter(),
             recorder: new FakeXdfRecorder(),

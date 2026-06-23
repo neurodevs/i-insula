@@ -1,4 +1,4 @@
-import { DeviceStreamer } from '@neurodevs/node-biosensors'
+import { DeviceController } from '@neurodevs/node-biosensors'
 import { LslStreamInlet } from '@neurodevs/node-lsl'
 
 export default class ProtocolAnalyticsRunner implements AnalyticsRunner {
@@ -14,8 +14,8 @@ export default class ProtocolAnalyticsRunner implements AnalyticsRunner {
         return new (this.Class ?? this)()
     }
 
-    private static createLslInlets(devices: DeviceStreamer[]) {
-        devices.map((device: DeviceStreamer) => {
+    private static createLslInlets(devices: DeviceController[]) {
+        devices.map((device: DeviceController) => {
             return device.outlets.map((outlet) => {
                 const options = {
                     sampleRate: outlet.sampleRateHz,
@@ -40,5 +40,5 @@ export interface AnalyticsRunner {}
 export type AnalyticsRunnerConstructor = new () => AnalyticsRunner
 
 export interface AnalyticsRunnerOptions {
-    devices: DeviceStreamer[]
+    devices: DeviceController[]
 }
